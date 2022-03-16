@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 function Header(): JSX.Element {
 
     return (
         <header className="page-header">
         <div className="page-header__top page-header__wrap">
-          <Link to='#' className="page-header__logo">
+          <Link to={AppRoute.Root} className="page-header__logo">
               <img className="page-header__logo-picture" src="img/logo.svg" alt="FlowrSpot" width="169"
                 height="38" />
           </Link>

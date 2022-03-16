@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import NotFound from '../../pages/NotFound/NotFound';
 import PageWrapper from '../PageWrapper/PageWrapper';
 
 function App(): JSX.Element {
@@ -15,7 +16,7 @@ function App(): JSX.Element {
               </PrivateRoute>
             }
           /> */}
-          {/* <Route path='*' element={<NotFound />}/> */}
+          <Route path='*' element={<NotFound />}/>
         </Route>
       </Routes>
     </BrowserRouter>
