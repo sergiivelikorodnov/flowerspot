@@ -13,3 +13,4 @@ export enum AuthorizationStatus {
 }
 
 export const API_BASE_URL = 'https://flowrspot-api.herokuapp.com/api/v1/flowers';
+export const REQUEST_TIMEOUT = 5000;
