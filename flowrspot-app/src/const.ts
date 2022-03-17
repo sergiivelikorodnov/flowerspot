@@ -11,3 +11,5 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export const API_BASE_URL = 'https://flowrspot-api.herokuapp.com/api/v1/flowers';
