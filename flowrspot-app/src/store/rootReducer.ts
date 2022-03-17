@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import postsReducer from './slice/flowersSlice';
+import postsReducer from './flowersSlice/flowersSlice';
 
 
 export enum StoreNameSpace {

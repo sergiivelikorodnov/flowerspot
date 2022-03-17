@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute } from '../../config/routes';
 import Favorites from '../../pages/Favorites/Favorites';
 import Login from '../../pages/Login/Login';
 import NotFound from '../../pages/NotFound/NotFound';
