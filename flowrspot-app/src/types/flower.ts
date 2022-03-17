@@ -1,12 +1,42 @@
+type FlowersMeta = {
+  currentPage: number,
+  ['current_page']?: number,
+  nextPage: number,
+  ['next_page']?: number,
+  prevPage: null | number,
+  ['prev_page']?: null | number,
+  totalPages: number,
+  ['total_pages']?: number
+}
 
 export type FlowerType = {
   id: number,
   name: string,
-  latin_name: string,
+  latinName: string,
+  ['latin_name']?: string,
   sightings: number,
-  profile_picture: string,
-  favorite: boolean
+  profilePicture: string,
+  ['profile_picture']?: string,
+  favorite: boolean,
+}
+
+export type FlowersBackType = {
+  id: number,
+  name: string,
+  latinName: string,
+  sightings: number,
+  profilePicture: string,
+  favorite: boolean,
+  currentPage: number,
+  nextPage: number,
+  prevPage: null | number,
+  totalPages: number,
 }
 
 
-export type FlowersType = FlowerType[];
+export type FlowersType = {
+  flowers:FlowerType[],
+  meta: {
+    pagination:FlowersMeta,
+  }
+}

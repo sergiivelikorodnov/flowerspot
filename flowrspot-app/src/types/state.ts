@@ -1,8 +1,8 @@
 import { RootState } from '../store/rootReducer';
-import { FlowersType } from './flower';
+import { FlowerType } from './flower';
 
 export type FlowersState = {
-  posts: FlowersType,
+  posts: FlowerType[],
 }
 
 export type State = RootState;

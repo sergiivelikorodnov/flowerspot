@@ -11,7 +11,7 @@ const flowersSlice = createSlice({
   initialState,
   reducers:{
     getPosts(state, action: PayloadAction<FlowersType>) {
-      state.posts = action.payload;
+      state.posts = action.payload.flowers;
     },
   },
 });

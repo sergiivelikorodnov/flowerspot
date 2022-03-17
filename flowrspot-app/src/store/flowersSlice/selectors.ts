@@ -1,5 +1,5 @@
 import {StoreNameSpace} from '../rootReducer';
 import {State} from '../../types/state';
-import { FlowersType } from '../../types/flower';
+import { FlowerType } from '../../types/flower';
 
-export const getAllPosts = (state: State): FlowersType => state[StoreNameSpace.Posts].posts;
+export const getAllPosts = (state: State): FlowerType[] => state[StoreNameSpace.Posts].posts;
