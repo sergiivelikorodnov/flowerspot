@@ -15,7 +15,7 @@ function FlowerCard({card}:SingleCard): JSX.Element {
       <Link className="catalogue-card__link" to="#">
           <img src={profilePicture} width="280" height="350" alt="" />
       </Link>
-      <button className="catalogue-card__bookmark-button catalogue-card__bookmark-button--active" type="button">
+      <button className="catalogue-card__bookmark-button catalogue-card__bookmark-button" type="button">
         <svg className="catalogue-card__bookmark-icon" width="13" height="12">
           <use xlinkHref="#icon-bookmark"></use>
         </svg>

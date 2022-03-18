@@ -13,6 +13,9 @@ function GridCards(): JSX.Element {
     dispatch(fetchPostsAction());
   }, [dispatch]);
 
+console.log(posts);
+
+
 return (
 <section className="catalog wrapper">
       <h2 className="visually-hidden">
