@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FlowersType } from '../../types/flower';
-import { FlowersState } from '../../types/state';
+import { FlowersStateType } from '../../types/state';
 
-const initialState:FlowersState = {
+const initialState:FlowersStateType = {
   posts: [],
 };
 

@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import { CommonState } from '../../types/state';
+import { CommonStateType } from '../../types/state';
 
-const initialState: CommonState = {
+const initialState: CommonStateType = {
   isModalActive: false,
   isLoginModalActive: false,
   isRegisterModalActive: false,
