@@ -1,20 +1,22 @@
-import { useDispatch, useSelector } from 'react-redux';
+import FlowerCard from '../FlowerCard/FlowerCard';
+import { FlowerType } from '../../types/flower';
 
-import { useEffect } from 'react';
-import { fetchPostsAction } from '../../store/apiActions';
-import { getAllPosts } from '../../store/flowersSlice/selectors';
-import FlowerCard from '../FlowerCard';
+type Posts = {
+  posts:FlowerType[]
+}
 
-function GridCards(): JSX.Element {
-  const posts = useSelector(getAllPosts);
-  const dispatch = useDispatch();
+function GridCards({posts}:Posts): JSX.Element {
 
-  useEffect(() => {
-    dispatch(fetchPostsAction());
-  }, [dispatch]);
+  if(posts.length ===0 ){
+    return (
+      <section className="catalog wrapper">
+            <h2 className="not-found">
+              Oops! Nothing has found.
+            </h2>
+          </section>
+        );
 
-console.log(posts);
-
+  }
 
 return (
 <section className="catalog wrapper">

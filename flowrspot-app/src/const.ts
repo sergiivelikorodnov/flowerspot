@@ -11,3 +11,8 @@ export const REQUEST_TIMEOUT = 5000;
 export enum NotificationMessage {
   Error = 'Sorry. Something went wrong',
 }
+
+export enum FetchStatus {
+  InProgress = 'IN_PROGRESS',
+  Success = 'SUCCESS'
+}

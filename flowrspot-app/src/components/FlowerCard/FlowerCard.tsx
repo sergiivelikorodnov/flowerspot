@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FlowerType } from '../types/flower';
+import { FlowerType } from '../../types/flower';
 
 type SingleCard = {
   card: FlowerType;
