@@ -9,4 +9,11 @@ export type FetchStatusType = {
   fetchStatus: FetchStatus;
 };
 
+export type CommonState = {
+  isModalActive: boolean,
+  isLoginModalActive: boolean,
+  isRegisterModalActive: boolean,
+  isProfileModalActive: boolean,
+};
+
 export type State = RootState;

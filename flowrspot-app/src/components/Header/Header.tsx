@@ -1,7 +1,27 @@
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../config/routes';
+import { setIsLoginModalActive, setIsModalActive, setIsProfileModalActive, setIsRegisterModalActive } from '../../store/commonSlice/commonSlice';
 
 function Header(): JSX.Element {
+
+  const dispatch = useDispatch();
+
+  const handleLoginOpenModal = () =>{
+    dispatch(setIsModalActive(true))
+    dispatch(setIsLoginModalActive(true))
+  }
+
+  const handleOpenRegisterModal = () =>{
+    dispatch(setIsModalActive(true))
+    dispatch(setIsRegisterModalActive(true))
+  }
+
+  const handleOpenProfileModal = () =>{
+    dispatch(setIsModalActive(true))
+    dispatch(setIsProfileModalActive(true))
+  }
+
 
     return (
         <header className="page-header">
@@ -25,18 +45,18 @@ function Header(): JSX.Element {
                   Latest Sightings
                 </Link>
               </li>
-              <li className="site-list__item site-list__item--grey">
+              <li className="site-list__item site-list__item--grey" onClick={handleOpenProfileModal}>
                 <Link to='#'>
                   Favorites
                 </Link>
               </li>
-              <li className="site-list__item site-list__item--login">
+              <li className="site-list__item site-list__item--login" onClick={handleLoginOpenModal}>
                 <Link to='#'>
                   Login
                 </Link>
               </li>
             </ul>
-            <div className="site-list__item site-list__item--rose">
+            <div className="site-list__item site-list__item--rose" onClick={handleOpenRegisterModal}>
               <Link to='#'>
                 New Account
               </Link>

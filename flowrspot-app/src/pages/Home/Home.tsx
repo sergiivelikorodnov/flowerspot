@@ -21,17 +21,14 @@ function Home(): JSX.Element {
 
   let query = useQuery();
   let search = query.get("query");
+
   if(!search){
     search='';
   }
 
-
   useEffect(() => {
     dispatch(fetchSearchPostsAction(search));
  }, [dispatch, search]);
-
-
- console.log(posts);
 
 
 if (status === FetchStatus.InProgress) {
