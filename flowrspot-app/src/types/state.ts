@@ -1,4 +1,4 @@
-import { AuthData } from './auth-data';
+import { AuthDataType, /* AuthDataRegisterType, */ AuthTokenType } from './auth-data';
 import { AuthorizationStatus, FetchStatus } from '../const';
 import { RootState } from '../store/rootReducer';
 import { FlowerType } from './flower';
@@ -19,7 +19,9 @@ export type CommonStateType = {
 
 export type AuthStateType = {
     authorizationStatus: AuthorizationStatus;
-    userAuthInfo: AuthData | null;
+    userAuthInfo: AuthDataType | null;
+    //userRegisterInfo: AuthDataRegisterType | null;
+    authCode: AuthTokenType | null;
 };
 
 export type State = RootState;

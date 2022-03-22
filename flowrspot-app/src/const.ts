@@ -13,6 +13,8 @@ export enum NotificationMessage {
   AuthError = 'Something went wrong. Check your email and password',
   CheckAuth = 'Login to see more functinality',
   ConnecError = 'Check your connection please',
+  AuthRegistered = 'You have successfully registered',
+  AuthLogged = 'You have successfully logged'
 }
 
 export enum FetchStatus {

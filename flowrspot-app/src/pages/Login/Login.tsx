@@ -1,13 +1,17 @@
 import { FormEvent, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AuthData } from '../../types/auth-data';
+import { loginAction } from '../../store/apiActions';
+import { getLoginStatus } from '../../store/authSlice/selectors';
+import { AuthDataType } from '../../types/auth-data';
 
 function Login(): JSX.Element {
+  const statusLogin = useSelector(getLoginStatus);
   const dispatch = useDispatch();
 
-  const onSubmit = (authData: AuthData) => {
-    //dispatch(loginAction(authData));
+  const onSubmit = (authData: AuthDataType) => {
+    console.log(statusLogin);
+    dispatch(loginAction(authData));
   };
 
   const emailRef = useRef<HTMLInputElement | null>(null);
