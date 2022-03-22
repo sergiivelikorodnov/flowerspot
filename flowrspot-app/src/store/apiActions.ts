@@ -13,6 +13,8 @@ import { toast } from 'react-toastify';
 import { getStatus } from './fetchStatusSlice/fetchStatusSlice';
 import { AuthDataType } from '../types/auth-data';
 import { loginUser, /* registerUser, */ requireAuthorization, setAuthKey } from './authSlice/authSlice';
+import { saveAuthStatus } from '../services/authStatus';
+import { saveToken } from '../services/token';
 
 enum HttpCode {
   Unauthorized = 401,
@@ -53,9 +55,10 @@ export const loginAction =
           return toast.info(response.data.error);
         }
 
-        /* saveAuthStatus(AuthorizationStatus.Auth);
-            saveToken(data.token);
-            saveEmail(data.email); */
+        const token = adaptAuthToken(response.data).authToken;
+
+        saveAuthStatus(AuthorizationStatus.Auth);
+        saveToken(token);
         dispatch(loginUser(response.data));
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
         toast.success(NotificationMessage.AuthLogged);

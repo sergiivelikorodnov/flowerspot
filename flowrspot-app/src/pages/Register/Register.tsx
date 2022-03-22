@@ -2,6 +2,7 @@ import { FormEvent, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { registerAction } from '../../store/apiActions';
+import { setIsModalActive, setIsRegisterModalActive } from '../../store/commonSlice/commonSlice';
 import { AuthDataRegisterType } from '../../types/auth-data';
 
 function Register(): JSX.Element {
@@ -12,6 +13,11 @@ function Register(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dateOfBirthRef = useRef<HTMLInputElement | null>(null);
+
+  const handleClose = () =>{
+    dispatch(setIsModalActive(false));
+    dispatch(setIsRegisterModalActive(false));
+  }
 
   const onSubmit = (authData: AuthDataRegisterType) => {
     dispatch(registerAction(authData));
@@ -109,7 +115,7 @@ function Register(): JSX.Element {
           Create Account
         </button>
       </form>
-      <Link to="/" className="cancel">
+      <Link to="/" className="cancel" onClick={handleClose}>
         I don’t want to register
       </Link>
     </>

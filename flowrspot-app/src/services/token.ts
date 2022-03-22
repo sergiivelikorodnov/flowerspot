@@ -1,4 +1,4 @@
-const AUTH_TOKEN_KEY = 'flowr-spot';
+const AUTH_TOKEN_KEY = 'flowr-spot-token';
 
 export type Token = string;
 

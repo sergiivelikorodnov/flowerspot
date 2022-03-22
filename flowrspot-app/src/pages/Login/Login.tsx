@@ -1,16 +1,14 @@
 import { FormEvent, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { loginAction } from '../../store/apiActions';
-import { getLoginStatus } from '../../store/authSlice/selectors';
+import { setIsLoginModalActive, setIsRegisterModalActive } from '../../store/commonSlice/commonSlice';
 import { AuthDataType } from '../../types/auth-data';
 
 function Login(): JSX.Element {
-  const statusLogin = useSelector(getLoginStatus);
   const dispatch = useDispatch();
 
   const onSubmit = (authData: AuthDataType) => {
-    console.log(statusLogin);
     dispatch(loginAction(authData));
   };
 
@@ -27,6 +25,11 @@ function Login(): JSX.Element {
       });
     }
   };
+
+  const handleRegister = () =>{
+      dispatch(setIsLoginModalActive(false));
+      dispatch(setIsRegisterModalActive(true));
+  }
 
   return (
     <>
@@ -63,8 +66,8 @@ function Login(): JSX.Element {
           Login to your Account
         </button>
       </form>
-      <Link to="/" className="cancel">
-        I don’t want to register
+      <Link to="/" className="cancel" onClick={handleRegister}>
+        I want to register
       </Link>
     </>
   );
