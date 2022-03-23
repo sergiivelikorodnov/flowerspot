@@ -1,4 +1,5 @@
 import { useDispatch } from 'react-redux';
+import { logoutAction, meInfoAction } from '../../store/apiActions';
 import {
   setIsModalActive,
   setIsProfileModalActive,
@@ -6,8 +7,15 @@ import {
 
 function Profile(): JSX.Element {
   const dispatch = useDispatch();
+  dispatch(meInfoAction());
 
   const handleClose = () => {
+    dispatch(setIsModalActive(false));
+    dispatch(setIsProfileModalActive(false));
+  };
+
+  const handleLogout = () => {
+    dispatch(logoutAction())
     dispatch(setIsModalActive(false));
     dispatch(setIsProfileModalActive(false));
   };
@@ -44,7 +52,11 @@ function Profile(): JSX.Element {
         <p className="profile-title">michael.berry@gmail.com</p>
       </div>
 
-      <button className="button2 button-logout" type="submit">
+      <button
+      className="button2 button-logout"
+      type="submit"
+      onClick={() => handleLogout()}
+      >
         Logout
       </button>
       <button

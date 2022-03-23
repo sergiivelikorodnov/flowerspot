@@ -10,6 +10,7 @@ function Login(): JSX.Element {
 
   const onSubmit = (authData: AuthDataType) => {
     dispatch(loginAction(authData));
+
   };
 
   const emailRef = useRef<HTMLInputElement | null>(null);

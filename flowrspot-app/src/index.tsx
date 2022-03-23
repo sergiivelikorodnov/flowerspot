@@ -7,9 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import App from './components/App/App';
 import { AuthorizationStatus } from './const';
 import { createAPI } from './services/api';
-import { checkAuthAction } from './store/apiActions';
-import { requireAuthorization } from './store/authSlice/authSlice';
 // import { checkAuthAction } from './store/apiActions';
+import { requireAuthorization } from './store/authSlice/authSlice';
 import { rootReducer } from './store/rootReducer';
 
 
@@ -25,7 +24,7 @@ const store = configureStore({
     }),
 });
 
-store.dispatch(checkAuthAction());
+// store.dispatch(checkAuthAction());
 
 ReactDOM.render(
   <React.StrictMode>

@@ -12,9 +12,9 @@ import {
 import { toast } from 'react-toastify';
 import { getStatus } from './fetchStatusSlice/fetchStatusSlice';
 import { AuthDataType } from '../types/auth-data';
-import { loginUser, /* registerUser, */ requireAuthorization, setAuthKey } from './authSlice/authSlice';
-import { saveAuthStatus } from '../services/authStatus';
-import { saveToken } from '../services/token';
+import { loginUser, logoutUser, /* registerUser, */ requireAuthorization, setAuthKey } from './authSlice/authSlice';
+import { dropAuthStatus, saveAuthStatus } from '../services/authStatus';
+import { dropToken, saveToken } from '../services/token';
 import { setIsLoginModalActive, setIsModalActive, setIsRegisterModalActive } from './commonSlice/commonSlice';
 
 enum HttpCode {
@@ -53,7 +53,9 @@ export const loginAction =
       .post(APIRoutes.Login, { email, password })
       .then((response) => {
         if (response.status === HttpCode.BadRequest) {
-          return toast.info(response.data.error);
+          return toast.info(response.data.error, {
+            position: toast.POSITION.TOP_CENTER
+          });
         }
 
         const token = adaptAuthToken(response.data);
@@ -65,11 +67,14 @@ export const loginAction =
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
         dispatch(setIsModalActive(false));
         dispatch(setIsLoginModalActive(false));
+
         toast.success(NotificationMessage.AuthLogged, {
-          position: toast.POSITION.BOTTOM_CENTER
+          position: toast.POSITION.TOP_CENTER
         });
       })
-      .catch(() => toast.error(NotificationMessage.AuthError));
+      .catch(() => toast.error(NotificationMessage.AuthError, {
+        position: toast.POSITION.TOP_CENTER
+      }));
   };
 
   export const registerAction =
@@ -87,7 +92,9 @@ export const loginAction =
         dispatch(setAuthKey(token))
         toast.success(NotificationMessage.AuthRegistered);
       })
-      .catch(() => toast.error(NotificationMessage.AuthError));
+      .catch(() => toast.error(NotificationMessage.AuthError, {
+        position: toast.POSITION.TOP_CENTER
+      }));
   };
 
 
@@ -96,14 +103,50 @@ export const loginAction =
     await api
       .get(APIRoutes.Login)
       .then(({status}) => {
+        console.log(status);
+
         status &&
           status !== 401 &&
+          status !== 404 &&
           dispatch(requireAuthorization(AuthorizationStatus.Auth)) &&
           saveAuthStatus(AuthorizationStatus.Auth);
       })
       .catch(() => {
-        toast.error(NotificationMessage.ConnecError);
+        toast.error(NotificationMessage.ConnecError, {
+          position: toast.POSITION.TOP_CENTER
+        });
         dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
         saveAuthStatus(AuthorizationStatus.NoAuth);
+      });
+  };
+
+
+export const logoutAction =
+  (): ThunkActionResult => async (dispatch, _getState, api) => {
+    dropToken();
+    dropAuthStatus();
+    dispatch(logoutUser());
+  };
+
+
+  export const meInfoAction =
+  (): ThunkActionResult => async (dispatch, _getState, api) => {
+    await api
+      .get(APIRoutes.Me)
+      .then((res) => {
+        console.log(res);
+/*
+        status &&
+          status !== 401 &&
+          status !== 404 &&
+          dispatch(requireAuthorization(AuthorizationStatus.Auth)) &&
+          saveAuthStatus(AuthorizationStatus.Auth); */
+      })
+      .catch(() => {
+        toast.error(NotificationMessage.ConnecError, {
+          position: toast.POSITION.TOP_CENTER
+        });
+       /*  dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+        saveAuthStatus(AuthorizationStatus.NoAuth); */
       });
   };
