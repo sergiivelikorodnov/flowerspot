@@ -15,6 +15,7 @@ import { AuthDataType } from '../types/auth-data';
 import { loginUser, /* registerUser, */ requireAuthorization, setAuthKey } from './authSlice/authSlice';
 import { saveAuthStatus } from '../services/authStatus';
 import { saveToken } from '../services/token';
+import { setIsLoginModalActive, setIsModalActive, setIsRegisterModalActive } from './commonSlice/commonSlice';
 
 enum HttpCode {
   Unauthorized = 401,
@@ -55,13 +56,18 @@ export const loginAction =
           return toast.info(response.data.error);
         }
 
-        const token = adaptAuthToken(response.data).authToken;
+        const token = adaptAuthToken(response.data);
 
         saveAuthStatus(AuthorizationStatus.Auth);
-        saveToken(token);
+        saveToken(token.authToken);
         dispatch(loginUser(response.data));
+        dispatch(setAuthKey(token))
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
-        toast.success(NotificationMessage.AuthLogged);
+        dispatch(setIsModalActive(false));
+        dispatch(setIsLoginModalActive(false));
+        toast.success(NotificationMessage.AuthLogged, {
+          position: toast.POSITION.BOTTOM_CENTER
+        });
       })
       .catch(() => toast.error(NotificationMessage.AuthError));
   };
@@ -76,8 +82,8 @@ export const loginAction =
           return toast.info(response.data.error);
         }
         const token = adaptAuthToken(response.data);
-
-        // dispatch(registerUser(response.data));
+        dispatch(setIsLoginModalActive(true));
+        dispatch(setIsRegisterModalActive(false));
         dispatch(setAuthKey(token))
         toast.success(NotificationMessage.AuthRegistered);
       })
@@ -85,3 +91,19 @@ export const loginAction =
   };
 
 
+  export const checkAuthAction =
+  (): ThunkActionResult => async (dispatch, _getState, api) => {
+    await api
+      .get(APIRoutes.Login)
+      .then(({status}) => {
+        status &&
+          status !== 401 &&
+          dispatch(requireAuthorization(AuthorizationStatus.Auth)) &&
+          saveAuthStatus(AuthorizationStatus.Auth);
+      })
+      .catch(() => {
+        toast.error(NotificationMessage.ConnecError);
+        dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+        saveAuthStatus(AuthorizationStatus.NoAuth);
+      });
+  };

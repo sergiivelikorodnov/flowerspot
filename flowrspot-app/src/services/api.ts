@@ -7,7 +7,9 @@ import axios, {
 } from 'axios';
 import { getToken } from './token';
 
-export const createAPI = (): AxiosInstance => {
+type UnauthorizedCallback = () => void;
+
+export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance => {
   const api = axios.create({
     baseURL: API_BASE_URL,
     timeout: REQUEST_TIMEOUT,
@@ -22,6 +24,26 @@ export const createAPI = (): AxiosInstance => {
       return response;
     },
   );
+
+  api.interceptors.request.use((config: AxiosRequestConfig) => {
+    const token = getToken();
+
+    if (token) {
+      config.headers = config.headers || {};
+      config.headers['x-token'] = token;
+    }
+
+    return config;
+  });
+  return api;
+};
+
+
+export const createFreeAPI = (): AxiosInstance => {
+  const api = axios.create({
+    baseURL: API_BASE_URL,
+    timeout: REQUEST_TIMEOUT,
+  });
 
   api.interceptors.request.use((config: AxiosRequestConfig) => {
     const token = getToken();
