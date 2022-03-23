@@ -2,7 +2,10 @@ import { FormEvent, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { loginAction } from '../../store/apiActions';
-import { setIsLoginModalActive, setIsRegisterModalActive } from '../../store/commonSlice/commonSlice';
+import {
+  setIsLoginModalActive,
+  setIsRegisterModalActive,
+} from '../../store/commonSlice/commonSlice';
 import { AuthDataType } from '../../types/auth-data';
 
 function Login(): JSX.Element {
@@ -10,7 +13,12 @@ function Login(): JSX.Element {
 
   const onSubmit = (authData: AuthDataType) => {
     dispatch(loginAction(authData));
-
+    if (emailRef.current !== null) {
+      emailRef.current.defaultValue = '';
+    }
+    if (passwordRef.current !== null) {
+      passwordRef.current.defaultValue = '';
+    }
   };
 
   const emailRef = useRef<HTMLInputElement | null>(null);
@@ -27,10 +35,10 @@ function Login(): JSX.Element {
     }
   };
 
-  const handleRegister = () =>{
-      dispatch(setIsLoginModalActive(false));
-      dispatch(setIsRegisterModalActive(true));
-  }
+  const handleRegister = () => {
+    dispatch(setIsLoginModalActive(false));
+    dispatch(setIsRegisterModalActive(true));
+  };
 
   return (
     <>
@@ -49,6 +57,7 @@ function Login(): JSX.Element {
             type="email"
             name="form-email"
             placeholder="michael.berry@gmail.com"
+            defaultValue = ""
             ref={emailRef}
           />
         </div>
@@ -59,6 +68,7 @@ function Login(): JSX.Element {
             id="form-password"
             type="password"
             name="form-password"
+            defaultValue = ""
             placeholder="************"
             ref={passwordRef}
           />
