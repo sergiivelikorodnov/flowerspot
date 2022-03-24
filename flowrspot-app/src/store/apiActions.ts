@@ -101,13 +101,10 @@ export const loginAction =
   export const checkAuthAction =
   (): ThunkActionResult => async (dispatch, _getState, api) => {
     await api
-      .get(APIRoutes.Login)
+      .get(APIRoutes.Me)
       .then(({status}) => {
-        console.log(status);
-
         status &&
           status !== 401 &&
-          status !== 404 &&
           dispatch(requireAuthorization(AuthorizationStatus.Auth)) &&
           saveAuthStatus(AuthorizationStatus.Auth);
       })
