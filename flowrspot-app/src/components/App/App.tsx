@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../config/routes';
 import Favorites from '../../pages/Favorites/Favorites';
+import FavoritesNotLogged from '../../pages/Favorites/FavoritesNotLogged';
 import Home from '../../pages/Home/Home';
 import NotFound from '../../pages/NotFound/NotFound';
 import PageWrapper from '../PageWrapper/PageWrapper';
@@ -12,6 +13,7 @@ function App(): JSX.Element {
       <Routes>
         <Route path={AppRoute.Root} element={<PageWrapper />}>
           <Route index element={<Home />}/>
+          <Route path={AppRoute.Login} element={<FavoritesNotLogged />} />
           <Route path={AppRoute.Favorites}
             element={
               <PrivateRoute>

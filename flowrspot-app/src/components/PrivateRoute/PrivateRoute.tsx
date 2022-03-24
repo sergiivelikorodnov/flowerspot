@@ -12,7 +12,7 @@ function PrivateRoute({ children }: PrivateRouteProps): JSX.Element{
   const authorizationStatus = useSelector(getLoginStatus);
 
   if (authorizationStatus!==AuthorizationStatus.Auth) {
-    return <Navigate to={AppRoute.Root} />;
+    return <Navigate to={AppRoute.Login} />;
   } else {
     return children;
   }

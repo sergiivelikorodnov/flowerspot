@@ -6,3 +6,4 @@ export const getLoginModalStatus = (state: State) => state[StoreNameSpace.ModalS
 export const getRegisterModalStatus = (state: State) => state[StoreNameSpace.ModalStatus].isRegisterModalActive;
 export const getProfileModalStatus = (state: State) => state[StoreNameSpace.ModalStatus].isProfileModalActive;
 export const getRegisterSuccessModalStatus = (state: State) => state[StoreNameSpace.ModalStatus].isRegisterSuccessModalActive;
+export const getLoginSuccessModalStatus = (state: State) => state[StoreNameSpace.ModalStatus].isLoginSuccessModalActive;

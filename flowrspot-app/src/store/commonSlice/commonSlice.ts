@@ -7,6 +7,7 @@ const initialState: CommonStateType = {
   isRegisterModalActive: false,
   isProfileModalActive: false,
   isRegisterSuccessModalActive: false,
+  isLoginSuccessModalActive: false,
 };
 
 const commonSlice = createSlice({
@@ -28,6 +29,9 @@ const commonSlice = createSlice({
     setIsRegisteredSuccessModalActive(state, action: PayloadAction<boolean>) {
       state.isRegisterSuccessModalActive = action.payload;
     },
+    setIsLoginSuccessModalActive(state, action: PayloadAction<boolean>) {
+      state.isLoginSuccessModalActive = action.payload;
+    },
   },
 });
 
@@ -36,7 +40,8 @@ export const {
   setIsRegisterModalActive,
   setIsModalActive,
   setIsProfileModalActive,
-  setIsRegisteredSuccessModalActive
+  setIsRegisteredSuccessModalActive,
+  setIsLoginSuccessModalActive
 } = commonSlice.actions;
 
 export default commonSlice.reducer;

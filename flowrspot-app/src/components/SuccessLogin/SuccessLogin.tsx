@@ -1,17 +1,23 @@
 import { useDispatch } from 'react-redux';
 import { NotificationMessage } from '../../const';
 import {
-  setIsLoginModalActive,
-  setIsRegisteredSuccessModalActive,
+  setIsLoginSuccessModalActive,
+  setIsModalActive,
+  setIsProfileModalActive,
 } from '../../store/commonSlice/commonSlice';
 import { motion, AnimatePresence } from 'framer-motion';
 
-function SuccessRegister(): JSX.Element {
+function SuccessLogin(): JSX.Element {
   const dispatch = useDispatch();
 
   const handleOk = () => {
-    dispatch(setIsLoginModalActive(true));
-    dispatch(setIsRegisteredSuccessModalActive(false));
+    dispatch(setIsLoginSuccessModalActive(false));
+    dispatch(setIsModalActive(false));
+  };
+
+  const handleProfile = () => {
+    dispatch(setIsProfileModalActive(true));
+    dispatch(setIsLoginSuccessModalActive(false));
   };
 
   const backDrop = {
@@ -29,13 +35,18 @@ function SuccessRegister(): JSX.Element {
           exit="exit"
         >
           <h2>{NotificationMessage.AuthRegistered}</h2>
+          <div className='modal-buttons-container'>
           <button className="button2" onClick={handleOk}>
             Ok
           </button>
+          <button className="button2" onClick={handleProfile}>
+            Profile
+          </button>
+          </div>
         </motion.div>
       </AnimatePresence>
     </>
   );
 }
 
-export default SuccessRegister;
+export default SuccessLogin;

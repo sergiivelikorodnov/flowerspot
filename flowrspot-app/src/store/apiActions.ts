@@ -15,7 +15,7 @@ import { AuthDataType } from '../types/auth-data';
 import { loginUser as setUserData, logoutUser, requireAuthorization, setAuthKey } from './authSlice/authSlice';
 import { dropAuthStatus, saveAuthStatus } from '../services/authStatus';
 import { dropToken, saveToken } from '../services/token';
-import { setIsLoginModalActive, setIsModalActive, setIsRegisteredSuccessModalActive, setIsRegisterModalActive } from './commonSlice/commonSlice';
+import { setIsLoginModalActive, setIsLoginSuccessModalActive, setIsRegisteredSuccessModalActive, setIsRegisterModalActive } from './commonSlice/commonSlice';
 
 enum HttpCode {
   Unauthorized = 401,
@@ -69,12 +69,9 @@ export const loginAction =
         dispatch(setAuthKey(token))
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
         dispatch(meInfoAction());
-        dispatch(setIsModalActive(false));
+        dispatch(setIsLoginSuccessModalActive(true));
         dispatch(setIsLoginModalActive(false));
 
-        toast.success(NotificationMessage.AuthLogged, {
-          position: toast.POSITION.TOP_CENTER
-        });
       })
       .catch(() => toast.error(NotificationMessage.AuthError, {
         position: toast.POSITION.TOP_CENTER
@@ -96,9 +93,6 @@ export const loginAction =
         dispatch(setIsRegisteredSuccessModalActive(true));
         dispatch(setIsRegisterModalActive(false));
         dispatch(setAuthKey(token))
-        toast.success(NotificationMessage.AuthRegistered, {
-          position: toast.POSITION.TOP_CENTER
-        });
       })
       .catch(() => toast.error(NotificationMessage.AuthError, {
         position: toast.POSITION.TOP_CENTER

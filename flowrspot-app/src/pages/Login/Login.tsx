@@ -7,6 +7,7 @@ import {
   setIsRegisterModalActive,
 } from '../../store/commonSlice/commonSlice';
 import { AuthDataType } from '../../types/auth-data';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function Login(): JSX.Element {
   const dispatch = useDispatch();
@@ -40,8 +41,20 @@ function Login(): JSX.Element {
     dispatch(setIsRegisterModalActive(true));
   };
 
+  const backDrop={
+    visible: {opacity: 1, y: 0},
+    hidden: {opacity: 0, y: 100}
+  }
+
   return (
     <>
+    <AnimatePresence exitBeforeEnter>
+        <motion.div
+          variants={backDrop}
+          initial="hidden"
+          animate="visible"
+          exit="exit"
+        >
       <h2>Welcome Back</h2>
       <form
         className="contact-form"
@@ -80,6 +93,8 @@ function Login(): JSX.Element {
       <Link to="/" className="cancel" onClick={handleRegister}>
         I want to register
       </Link>
+      </motion.div>
+      </AnimatePresence>
     </>
   );
 }

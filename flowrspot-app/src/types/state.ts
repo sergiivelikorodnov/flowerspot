@@ -16,6 +16,7 @@ export type CommonStateType = {
   isRegisterModalActive: boolean,
   isProfileModalActive: boolean,
   isRegisterSuccessModalActive: boolean,
+  isLoginSuccessModalActive: boolean,
 };
 
 export type AuthStateType = {

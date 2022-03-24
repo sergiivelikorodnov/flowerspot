@@ -1002,6 +1002,11 @@ margin: 0;
   top: 10px;
   cursor: pointer;
 }
+.modal-buttons-container{
+	display:flex;
+	gap: 20px;
+	padding-top: 10px;
+}
 
 
 @media (max-width: 420px) {
