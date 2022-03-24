@@ -1,5 +1,6 @@
-import { useDispatch } from 'react-redux';
-import { logoutAction, meInfoAction } from '../../store/apiActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutAction } from '../../store/apiActions';
+import { getUserData } from '../../store/authSlice/selectors';
 import {
   setIsModalActive,
   setIsProfileModalActive,
@@ -7,7 +8,7 @@ import {
 
 function Profile(): JSX.Element {
   const dispatch = useDispatch();
-  dispatch(meInfoAction());
+  const userData = useSelector(getUserData);
 
   const handleClose = () => {
     dispatch(setIsModalActive(false));
@@ -31,17 +32,17 @@ function Profile(): JSX.Element {
           alt=""
         />
         <div>
-          <p className="profile-name">Michael Berry</p>
+          <p className="profile-name">{userData?.firstName} {userData?.lastName}</p>
           <p className="profile-stat">47 sightings</p>
         </div>
       </div>
       <div className="profile-data">
         <p className="profile-subtitle">First Name</p>
-        <p className="profile-title">Michael</p>
+        <p className="profile-title">{userData?.firstName} </p>
       </div>
       <div className="profile-data">
         <p className="profile-subtitle">Last Name</p>
-        <p className="profile-title">Berry</p>
+        <p className="profile-title">{userData?.lastName}</p>
       </div>
       <div className="profile-data">
         <p className="profile-subtitle">Date of Birth</p>

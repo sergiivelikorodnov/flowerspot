@@ -38,7 +38,6 @@ export const createAPI = (onUnauthorized: UnauthorizedCallback): AxiosInstance =
   return api;
 };
 
-
 export const createFreeAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: API_BASE_URL,

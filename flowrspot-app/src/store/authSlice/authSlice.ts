@@ -1,7 +1,6 @@
-import { AuthTokenType } from './../../types/auth-data';
+import { AuthTokenType, UserMeDataType } from './../../types/auth-data';
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import { AuthorizationStatus } from '../../const';
-import { AuthDataType } from '../../types/auth-data';
 import { AuthStateType } from '../../types/state';
 
 const initialState: AuthStateType = {
@@ -14,11 +13,13 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    loginUser(state, action: PayloadAction<AuthDataType>) {
+    loginUser(state, action: PayloadAction<UserMeDataType>) {
       state.userAuthInfo = action.payload;
     },
     logoutUser(state) {
       state.authorizationStatus = AuthorizationStatus.NoAuth;
+      state.userAuthInfo = null;
+      state.authCode = null;
     },
     requireAuthorization(state, action: PayloadAction<AuthorizationStatus>) {
       state.authorizationStatus = action.payload;

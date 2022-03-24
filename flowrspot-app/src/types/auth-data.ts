@@ -1,6 +1,7 @@
 export type AuthDataType = {
   email: string,
   password: string,
+  id?:number,
 };
 
 export type AuthDataErrorType = {
@@ -22,4 +23,12 @@ export type AuthDataRegisterType = {
 export type AuthTokenType = {
   authToken: string,
   ['auth_token']?: string,
+}
+
+export type UserMeDataType = {
+      id: number,
+      firstName: string,
+      ["first_name"]?: string,
+      lastName: string,
+      ["last_name"]?: string
 }

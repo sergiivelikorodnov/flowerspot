@@ -3,7 +3,7 @@ import { FlowersType } from './../types/flower';
 import { APIRoutes } from '../config/apiRoutes';
 import { ThunkActionResult } from '../types/action';
 import { getPosts } from './flowersSlice/flowersSlice';
-import { adaptAuthToken, adaptPostsBackToFront, adaptUserRegister } from '../services/adapters';
+import { adaptAuthToken, adaptPostsBackToFront, adaptUserInfo, adaptUserRegister } from '../services/adapters';
 import {
   AuthorizationStatus,
   FetchStatus,
@@ -12,10 +12,10 @@ import {
 import { toast } from 'react-toastify';
 import { getStatus } from './fetchStatusSlice/fetchStatusSlice';
 import { AuthDataType } from '../types/auth-data';
-import { loginUser, logoutUser, /* registerUser, */ requireAuthorization, setAuthKey } from './authSlice/authSlice';
+import { loginUser as setUserData, logoutUser, requireAuthorization, setAuthKey } from './authSlice/authSlice';
 import { dropAuthStatus, saveAuthStatus } from '../services/authStatus';
 import { dropToken, saveToken } from '../services/token';
-import { setIsLoginModalActive, setIsModalActive, setIsRegisterModalActive } from './commonSlice/commonSlice';
+import { setIsLoginModalActive, setIsModalActive, setIsRegisteredSuccessModalActive, setIsRegisterModalActive } from './commonSlice/commonSlice';
 
 enum HttpCode {
   Unauthorized = 401,
@@ -31,7 +31,9 @@ export const fetchPostsAction =
         dispatch(getStatus(FetchStatus.Success));
         dispatch(getPosts(adaptPostsBackToFront(data)));
       })
-      .catch(() => toast.error(NotificationMessage.Error));
+      .catch(() => toast.error(NotificationMessage.Error, {
+        position: toast.POSITION.TOP_CENTER
+      }));
   };
 
 export const fetchSearchPostsAction =
@@ -43,7 +45,9 @@ export const fetchSearchPostsAction =
         dispatch(getStatus(FetchStatus.Success));
         dispatch(getPosts(adaptPostsBackToFront(data)));
       })
-      .catch(() => toast.error(NotificationMessage.Error));
+      .catch(() => toast.error(NotificationMessage.Error, {
+        position: toast.POSITION.TOP_CENTER
+      }));
   };
 
 export const loginAction =
@@ -62,9 +66,9 @@ export const loginAction =
 
         saveAuthStatus(AuthorizationStatus.Auth);
         saveToken(token.authToken);
-        dispatch(loginUser(response.data));
         dispatch(setAuthKey(token))
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
+        dispatch(meInfoAction());
         dispatch(setIsModalActive(false));
         dispatch(setIsLoginModalActive(false));
 
@@ -84,13 +88,17 @@ export const loginAction =
       .post(APIRoutes.Register, adaptUserRegister({ email, password, firstName, lastName, dateOfBirth }))
       .then((response) => {
         if (response.status === HttpCode.BadRequest) {
-          return toast.info(response.data.error);
+          return toast.info(response.data.error, {
+            position: toast.POSITION.TOP_CENTER
+          });
         }
         const token = adaptAuthToken(response.data);
-        dispatch(setIsLoginModalActive(true));
+        dispatch(setIsRegisteredSuccessModalActive(true));
         dispatch(setIsRegisterModalActive(false));
         dispatch(setAuthKey(token))
-        toast.success(NotificationMessage.AuthRegistered);
+        toast.success(NotificationMessage.AuthRegistered, {
+          position: toast.POSITION.TOP_CENTER
+        });
       })
       .catch(() => toast.error(NotificationMessage.AuthError, {
         position: toast.POSITION.TOP_CENTER
@@ -102,10 +110,11 @@ export const loginAction =
   (): ThunkActionResult => async (dispatch, _getState, api) => {
     await api
       .get(APIRoutes.Me)
-      .then(({status}) => {
-        status &&
-          status !== 401 &&
+      .then((data) => {
+        data.status &&
+          data.status !== 401 &&
           dispatch(requireAuthorization(AuthorizationStatus.Auth)) &&
+          dispatch(setUserData(adaptUserInfo(data.data.user)))&&
           saveAuthStatus(AuthorizationStatus.Auth);
       })
       .catch(() => {
@@ -130,20 +139,12 @@ export const logoutAction =
   (): ThunkActionResult => async (dispatch, _getState, api) => {
     await api
       .get(APIRoutes.Me)
-      .then((res) => {
-        console.log(res);
-/*
-        status &&
-          status !== 401 &&
-          status !== 404 &&
-          dispatch(requireAuthorization(AuthorizationStatus.Auth)) &&
-          saveAuthStatus(AuthorizationStatus.Auth); */
+      .then(({data}) => {
+          dispatch(setUserData(adaptUserInfo(data.user)));
       })
       .catch(() => {
         toast.error(NotificationMessage.ConnecError, {
           position: toast.POSITION.TOP_CENTER
         });
-       /*  dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
-        saveAuthStatus(AuthorizationStatus.NoAuth); */
       });
   };

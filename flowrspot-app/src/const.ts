@@ -13,7 +13,7 @@ export enum NotificationMessage {
   AuthError = 'Something went wrong. Check your email and password',
   CheckAuth = 'Login to see more functinality',
   ConnecError = 'Check your connection please',
-  AuthRegistered = 'You have successfully registered',
+  AuthRegistered = 'Congratulations! You have successfully signed up for FlowrSpot!',
   AuthLogged = 'You have successfully logged'
 }
 

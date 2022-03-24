@@ -1,4 +1,4 @@
-import { AuthDataType, /* AuthDataRegisterType, */ AuthTokenType } from './auth-data';
+import { AuthTokenType, UserMeDataType } from './auth-data';
 import { AuthorizationStatus, FetchStatus } from '../const';
 import { RootState } from '../store/rootReducer';
 import { FlowerType } from './flower';
@@ -15,12 +15,12 @@ export type CommonStateType = {
   isLoginModalActive: boolean,
   isRegisterModalActive: boolean,
   isProfileModalActive: boolean,
+  isRegisterSuccessModalActive: boolean,
 };
 
 export type AuthStateType = {
     authorizationStatus: AuthorizationStatus;
-    userAuthInfo: AuthDataType | null;
-    //userRegisterInfo: AuthDataRegisterType | null;
+    userAuthInfo: UserMeDataType | null;
     authCode: AuthTokenType | null;
 };
 
