@@ -7,19 +7,16 @@ import {
 } from '../../store/commonSlice/commonSlice';
 import { AuthDataRegisterType } from '../../types/auth-data';
 import { motion, AnimatePresence } from 'framer-motion';
-import {useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 function Register(): JSX.Element {
   const dispatch = useDispatch();
   const {
     register,
-    formState:{
-      errors,
-      isValid,
-    },
+    formState: { errors, isValid },
     handleSubmit,
   } = useForm<AuthDataRegisterType>({
-    mode: 'onChange'
+    mode: 'onChange',
   });
 
   const handleClose = () => {
@@ -27,12 +24,9 @@ function Register(): JSX.Element {
     dispatch(setIsRegisterModalActive(false));
   };
 
-  const onSubmit:SubmitHandler<AuthDataRegisterType> = (authData) => {
-    console.log(authData);
+  const onSubmit: SubmitHandler<AuthDataRegisterType> = (authData) => {
     dispatch(registerAction(authData));
-
   };
-
 
   const backDrop = {
     visible: { opacity: 1, y: 0 },
@@ -57,23 +51,24 @@ function Register(): JSX.Element {
           >
             <div className="form-line">
               <div className="input-wrap">
-                <label htmlFor="formName">First Name
-                </label>
+                <label htmlFor="formName">First Name</label>
                 <input
                   className="form-input"
                   id="formName"
                   type="text"
                   placeholder="Michael"
-                  {...register('firstName',{
-                    required : 'Enter First Name',
-                    minLength:{
+                  {...register('firstName', {
+                    required: 'Enter First Name',
+                    minLength: {
                       value: 4,
-                      message: 'Minimum 4 symbols'
+                      message: 'Minimum 4 symbols',
                     },
                   })}
                 />
-                <div className='form-alert'>
-                  {errors?.firstName && <p>{errors?.firstName?.message || 'Error!'}</p>}
+                <div className="form-alert">
+                  {errors?.firstName && (
+                    <p>{errors?.firstName?.message || 'Error!'}</p>
+                  )}
                 </div>
               </div>
               <div className="input-wrap">
@@ -83,16 +78,18 @@ function Register(): JSX.Element {
                   id="formLastName"
                   type="text"
                   placeholder="Berry"
-                  {...register('lastName',{
-                    required : 'Enter Last Name',
-                    minLength:{
+                  {...register('lastName', {
+                    required: 'Enter Last Name',
+                    minLength: {
                       value: 4,
-                      message: 'Minimum 4 symbols'
+                      message: 'Minimum 4 symbols',
                     },
                   })}
                 />
-                <div className='form-alert'>
-                  {errors?.lastName && <p>{errors?.lastName?.message || 'Error!'}</p>}
+                <div className="form-alert">
+                  {errors?.lastName && (
+                    <p>{errors?.lastName?.message || 'Error!'}</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -105,13 +102,15 @@ function Register(): JSX.Element {
                 defaultValue="1980-05-20"
                 min="1900-01-01"
                 max="2023-12-31"
-                {...register('dateOfBirth',{
-                  required : 'Enter Date of Birth',
+                {...register('dateOfBirth', {
+                  required: 'Enter Date of Birth',
                 })}
               />
-              <div className='form-alert'>
-                  {errors?.dateOfBirth && <p>{errors?.dateOfBirth?.message || 'Error!'}</p>}
-                </div>
+              <div className="form-alert">
+                {errors?.dateOfBirth && (
+                  <p>{errors?.dateOfBirth?.message || 'Error!'}</p>
+                )}
+              </div>
             </div>
             <div className="input-wrap">
               <label htmlFor="formEmail">Email Address</label>
@@ -121,15 +120,17 @@ function Register(): JSX.Element {
                 type="email"
                 defaultValue=""
                 placeholder="michael.berry@gmail.com"
-                {...register('email',{
-                  required : 'Enter Valid Email',
-                  pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-
+                {...register('email', {
+                  required: 'Enter Valid Email',
+                  pattern:
+                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                 })}
               />
-              <div className='form-alert'>
-                  {errors?.email && <p>{errors?.email?.message || 'Enter Valid Email'}</p>}
-                </div>
+              <div className="form-alert">
+                {errors?.email && (
+                  <p>{errors?.email?.message || 'Enter Valid Email'}</p>
+                )}
+              </div>
             </div>
             <div className="input-wrap">
               <label htmlFor="formPassword">Password</label>
@@ -139,19 +140,24 @@ function Register(): JSX.Element {
                 type="password"
                 defaultValue=""
                 placeholder="************"
-                {...register('password',{
-                  required : 'Enter Password',
-                  minLength:{
+                {...register('password', {
+                  required: 'Enter Password',
+                  minLength: {
                     value: 6,
-                    message: 'Minimum 6 symbols'
+                    message: 'Minimum 6 symbols',
                   },
                 })}
               />
-              <div className='form-alert'>
-                  {errors?.password && <p>{errors?.password?.message || 'Error!'}</p>}
-                </div>
+              <div className="form-alert">
+                {errors?.password && (
+                  <p>{errors?.password?.message || 'Error!'}</p>
+                )}
+              </div>
             </div>
-            <button className={!isValid ? "button-disabled button2": "button2"} type="submit">
+            <button
+              className={!isValid ? 'button-disabled button2' : 'button2'}
+              type="submit"
+            >
               Create Account
             </button>
           </form>

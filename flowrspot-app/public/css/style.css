@@ -1041,5 +1041,6 @@ margin: 0;
 
 .form-alert p{
   margin-top: 0;
-  color: var(--color-alert)
+  color: var(--color-alert);
+  font-size: 12px;
 }
