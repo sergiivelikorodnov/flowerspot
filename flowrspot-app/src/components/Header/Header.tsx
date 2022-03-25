@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../config/routes';
 import { AuthorizationStatus } from '../../const';
 import { getLoginStatus } from '../../store/authSlice/selectors';
@@ -14,7 +14,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 function Header(): JSX.Element {
   const dispatch = useDispatch();
-  const [isMenuOpen, setMenuOpen] = useState(false);
+  const [isMenuOpen, setMenuOpen] = useState(true);
+  let navigate = useNavigate();
+
+  const handleResize = () => {
+    if (window.innerWidth > 768) {
+      setMenuOpen(true)
+    } else {
+      setMenuOpen(false)
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResize)
+  })
 
   const handleLoginOpenModal = () => {
     dispatch(setIsModalActive(true));
@@ -30,6 +43,11 @@ function Header(): JSX.Element {
     dispatch(setIsModalActive(true));
     dispatch(setIsProfileModalActive(true));
   };
+
+  const handleFavorite = () =>{
+    navigate (AppRoute.Favorites);
+    handleResize();
+  }
 
   const handleMenuOpen = () => {
     setMenuOpen(!isMenuOpen);
@@ -104,7 +122,7 @@ function Header(): JSX.Element {
                 <Link to="#">Latest Sightings</Link>
               </li>
               <li className="site-list__item site-list__item--grey">
-                <Link to={AppRoute.Favorites}>Favorites</Link>
+                <Link to={AppRoute.Favorites} onClick={handleFavorite}>Favorites</Link>
               </li>
               {authorizationStatus !== AuthorizationStatus.Auth ? (
                 <>
