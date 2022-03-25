@@ -1,4 +1,3 @@
-import { FormEvent, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { registerAction } from '../../store/apiActions';
@@ -8,44 +7,32 @@ import {
 } from '../../store/commonSlice/commonSlice';
 import { AuthDataRegisterType } from '../../types/auth-data';
 import { motion, AnimatePresence } from 'framer-motion';
+import {useForm, SubmitHandler } from 'react-hook-form';
 
 function Register(): JSX.Element {
   const dispatch = useDispatch();
-
-  const firstNameRef = useRef<HTMLInputElement | null>(null);
-  const lastNameRef = useRef<HTMLInputElement | null>(null);
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
-  const dateOfBirthRef = useRef<HTMLInputElement | null>(null);
+  const {
+    register,
+    formState:{
+      errors,
+      isValid,
+    },
+    handleSubmit,
+  } = useForm<AuthDataRegisterType>({
+    mode: 'onChange'
+  });
 
   const handleClose = () => {
     dispatch(setIsModalActive(false));
     dispatch(setIsRegisterModalActive(false));
   };
 
-  const onSubmit = (authData: AuthDataRegisterType) => {
+  const onSubmit:SubmitHandler<AuthDataRegisterType> = (authData) => {
+    console.log(authData);
     dispatch(registerAction(authData));
+
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-
-    if (
-      emailRef.current !== null &&
-      passwordRef.current !== null &&
-      firstNameRef.current !== null &&
-      lastNameRef.current !== null &&
-      dateOfBirthRef.current !== null
-    ) {
-      onSubmit({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-        firstName: firstNameRef.current.value,
-        lastName: lastNameRef.current.value,
-        dateOfBirth: dateOfBirthRef.current.value,
-      });
-    }
-  };
 
   const backDrop = {
     visible: { opacity: 1, y: 0 },
@@ -66,68 +53,105 @@ function Register(): JSX.Element {
             className="contact-form"
             action="#"
             method="post"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <div className="form-line">
               <div className="input-wrap">
-                <label htmlFor="form-name">First Name</label>
+                <label htmlFor="formName">First Name
+                </label>
                 <input
                   className="form-input"
-                  id="form-name"
+                  id="formName"
                   type="text"
-                  name="form-name"
                   placeholder="Michael"
-                  ref={firstNameRef}
+                  {...register('firstName',{
+                    required : 'Enter First Name',
+                    minLength:{
+                      value: 4,
+                      message: 'Minimum 4 symbols'
+                    },
+                  })}
                 />
+                <div className='form-alert'>
+                  {errors?.firstName && <p>{errors?.firstName?.message || 'Error!'}</p>}
+                </div>
               </div>
               <div className="input-wrap">
-                <label htmlFor="form-lastname">Last Name</label>
+                <label htmlFor="formLastName">Last Name</label>
                 <input
                   className="form-input"
-                  id="form-lastname"
+                  id="formLastName"
                   type="text"
-                  name="form-lastname"
                   placeholder="Berry"
-                  ref={lastNameRef}
+                  {...register('lastName',{
+                    required : 'Enter Last Name',
+                    minLength:{
+                      value: 4,
+                      message: 'Minimum 4 symbols'
+                    },
+                  })}
                 />
+                <div className='form-alert'>
+                  {errors?.lastName && <p>{errors?.lastName?.message || 'Error!'}</p>}
+                </div>
               </div>
             </div>
             <div className="input-wrap">
-              <label htmlFor="form-name">Date of Birth</label>
+              <label htmlFor="formBirth">Date of Birth</label>
               <input
                 className="form-input"
-                id="form-name"
+                id="formBirth"
                 type="date"
-                name="form-name"
                 defaultValue="1980-05-20"
                 min="1900-01-01"
                 max="2023-12-31"
-                ref={dateOfBirthRef}
+                {...register('dateOfBirth',{
+                  required : 'Enter Date of Birth',
+                })}
               />
+              <div className='form-alert'>
+                  {errors?.dateOfBirth && <p>{errors?.dateOfBirth?.message || 'Error!'}</p>}
+                </div>
             </div>
             <div className="input-wrap">
-              <label htmlFor="form-email">Email Address</label>
+              <label htmlFor="formEmail">Email Address</label>
               <input
                 className="form-input"
-                id="form-email"
+                id="formEmail"
                 type="email"
-                name="form-email"
+                defaultValue=""
                 placeholder="michael.berry@gmail.com"
-                ref={emailRef}
+                {...register('email',{
+                  required : 'Enter Valid Email',
+                  pattern: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
+                })}
               />
+              <div className='form-alert'>
+                  {errors?.email && <p>{errors?.email?.message || 'Enter Valid Email'}</p>}
+                </div>
             </div>
             <div className="input-wrap">
-              <label htmlFor="form-password">Password</label>
+              <label htmlFor="formPassword">Password</label>
               <input
                 className="form-input"
-                id="form-password"
+                id="formPassword"
                 type="password"
-                name="form-password"
+                defaultValue=""
                 placeholder="************"
-                ref={passwordRef}
+                {...register('password',{
+                  required : 'Enter Password',
+                  minLength:{
+                    value: 6,
+                    message: 'Minimum 6 symbols'
+                  },
+                })}
               />
+              <div className='form-alert'>
+                  {errors?.password && <p>{errors?.password?.message || 'Error!'}</p>}
+                </div>
             </div>
-            <button className="button2" type="submit">
+            <button className={!isValid ? "button-disabled button2": "button2"} type="submit">
               Create Account
             </button>
           </form>

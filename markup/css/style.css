@@ -748,15 +748,17 @@ margin: 0;
   background-color: var(--color-secondary);
 }
 
-@media (max-width: 768px) {
-  .catalogue-card__box {
-    height: 290px;
-  }
-
+@media (max-width: 980px){
   .catalogue__list {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 17px;
     padding-top: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .catalogue-card__box {
+    height: 290px;
   }
 
   .catalogue-card__title {
@@ -1002,6 +1004,11 @@ margin: 0;
   top: 10px;
   cursor: pointer;
 }
+.modal-buttons-container{
+	display:flex;
+	gap: 20px;
+	padding-top: 10px;
+}
 
 
 @media (max-width: 420px) {
@@ -1025,3 +1032,4 @@ margin: 0;
 .not-found{
   padding-bottom: 80px;
 }
+
