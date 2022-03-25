@@ -23,30 +23,6 @@ function Login(): JSX.Element {
     dispatch(loginAction(authData));
   };
 
-  /*  const onSubmit = (authData: AuthDataType) => {
-    dispatch(loginAction(authData));
-    if (emailRef.current !== null) {
-      emailRef.current.defaultValue = '';
-    }
-    if (passwordRef.current !== null) {
-      passwordRef.current.defaultValue = '';
-    }
-  };
-
-  const emailRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
-
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-
-    if (emailRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
-    }
-  }; */
-
   const handleRegister = () => {
     dispatch(setIsLoginModalActive(false));
     dispatch(setIsRegisterModalActive(true));
