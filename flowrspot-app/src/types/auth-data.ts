@@ -27,8 +27,8 @@ export type AuthTokenType = {
 
 export type UserMeDataType = {
       id: number,
-      firstName: string,
+      firstName?: string,
       ["first_name"]?: string,
-      lastName: string,
+      lastName?: string,
       ["last_name"]?: string
 }

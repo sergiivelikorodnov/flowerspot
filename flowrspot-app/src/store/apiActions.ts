@@ -22,7 +22,6 @@ import {
   loginUser as setUserData,
   logoutUser,
   requireAuthorization,
-  setAuthKey,
 } from './authSlice/authSlice';
 import { dropAuthStatus, saveAuthStatus } from '../services/authStatus';
 import { dropToken, saveToken } from '../services/token';
@@ -88,7 +87,6 @@ export const loginAction =
 
         saveAuthStatus(AuthorizationStatus.Auth);
         saveToken(token.authToken);
-        dispatch(setAuthKey(token));
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
         dispatch(meInfoAction());
         dispatch(setIsLoginSuccessModalActive(true));
@@ -115,10 +113,8 @@ export const registerAction =
         if (response.status === HttpCode.BadRequest) {
           return toast.info(response.data.error, toastPosition);
         }
-        const token = adaptAuthToken(response.data);
         dispatch(setIsRegisteredSuccessModalActive(true));
         dispatch(setIsRegisterModalActive(false));
-        dispatch(setAuthKey(token));
       })
       .catch(() => toast.error(NotificationMessage.AuthError, toastPosition));
   };

@@ -1,21 +1,21 @@
 type FlowersMeta = {
-  currentPage: number,
+  currentPage?: number,
   ['current_page']?: number,
-  nextPage: number,
+  nextPage?: number,
   ['next_page']?: number,
-  prevPage: null | number,
+  prevPage?: null | number,
   ['prev_page']?: null | number,
-  totalPages: number,
+  totalPages?: number,
   ['total_pages']?: number
 }
 
 export type FlowerType = {
   id: number,
   name: string,
-  latinName: string,
+  latinName?: string,
   ['latin_name']?: string,
   sightings: number,
-  profilePicture: string,
+  profilePicture?: string,
   ['profile_picture']?: string,
   favorite: boolean,
 }
@@ -38,5 +38,34 @@ export type FlowersType = {
   flowers:FlowerType[],
   meta: {
     pagination:FlowersMeta,
+  }
+}
+
+export type FlowerMockType = {
+  id: number,
+  name: string,
+  latinName?: string,
+  ['latin_name']?: string,
+  sightings: number,
+  profilePicture?: string,
+  ['profile_picture']?: string,
+  favorite: boolean,
+}
+
+type FlowersMockMeta = {
+  currentPage?: number,
+  ['current_page']?: number,
+  nextPage?: number,
+  ['next_page']?: number,
+  prevPage?: number,
+  ['prev_page']?: null | number,
+  totalPages?: number,
+  ['total_pages']?: number
+}
+
+export type FlowersMockType = {
+  flowers:FlowerMockType[],
+  meta: {
+    pagination:FlowersMockMeta,
   }
 }
