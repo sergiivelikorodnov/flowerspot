@@ -2,17 +2,14 @@ import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import GridCards from '../../components/GridCards/GridCards';
-import Loading from '../../components/Loading/Loading';
 import Welcome from '../../components/Welcome/Welcome';
 import { FetchStatus } from '../../const';
 import { fetchPostsAction, fetchSearchPostsAction } from '../../store/apiActions';
 import { setStatus } from '../../store/fetchStatusSlice/fetchStatusSlice';
-import { getFetchStatus } from '../../store/fetchStatusSlice/selectors';
 import { getAllPosts } from '../../store/flowersSlice/selectors';
 
 function Home(): JSX.Element {
   const posts = useSelector(getAllPosts);
-  const status = useSelector(getFetchStatus);
   const dispatch = useDispatch();
 
   function useQuery() {
@@ -32,11 +29,7 @@ function Home(): JSX.Element {
     }
   }, [dispatch, searchQuery]);
 
-  if (status === FetchStatus.InProgress) {
-    return <Loading />;
-  }
-
-  return (
+   return (
     <>
       <Welcome />
       <GridCards posts={posts} />

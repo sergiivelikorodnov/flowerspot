@@ -2,7 +2,6 @@ import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import GridCards from '../../components/GridCards/GridCards';
-import Loading from '../../components/Loading/Loading';
 import Search from '../../components/Search/Search';
 
 import { FetchStatus } from '../../const';
@@ -11,12 +10,11 @@ import {
   fetchSearchPostsAction,
 } from '../../store/apiActions';
 import { setStatus } from '../../store/fetchStatusSlice/fetchStatusSlice';
-import { getFetchStatus } from '../../store/fetchStatusSlice/selectors';
+
 import { getAllPosts } from '../../store/flowersSlice/selectors';
 
 function LatestSightings(): JSX.Element {
   const posts = useSelector(getAllPosts);
-  const status = useSelector(getFetchStatus);
   const dispatch = useDispatch();
 
   function useQuery() {
@@ -35,11 +33,6 @@ function LatestSightings(): JSX.Element {
       dispatch(fetchSearchPostsAction(searchQuery));
     }
   }, [dispatch, searchQuery]);
-
-
-  if (status === FetchStatus.InProgress) {
-    return <Loading />;
-  }
 
   return (
     <>

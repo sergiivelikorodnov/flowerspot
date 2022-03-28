@@ -11,6 +11,7 @@ import {
   setIsRegisterModalActive,
 } from '../../store/commonSlice/commonSlice';
 import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 
 function Header(): JSX.Element {
   const dispatch = useDispatch();
@@ -154,4 +155,4 @@ function Header(): JSX.Element {
   );
 }
 
-export default Header;
+export default React.memo(Header);

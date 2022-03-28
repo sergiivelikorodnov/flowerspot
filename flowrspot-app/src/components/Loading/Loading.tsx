@@ -5,6 +5,7 @@ function Loading(): JSX.Element {
   const LOADING_WIDTH = 50;
 
   return (
+    <section className="wrapper">
     <div className="loading" data-testid="loading">
       <TailSpin
         color="#4481c3"
@@ -12,7 +13,7 @@ function Loading(): JSX.Element {
         width={LOADING_WIDTH}
       />
     </div>
-
+  </section>
   );
 }
 
