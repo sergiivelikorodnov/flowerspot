@@ -6,6 +6,7 @@ import {
   setIsProfileModalActive,
 } from '../../store/commonSlice/commonSlice';
 import { motion, AnimatePresence } from 'framer-motion';
+import { backDrop } from '../../const';
 
 function Profile(): JSX.Element {
   const dispatch = useDispatch();
@@ -20,11 +21,6 @@ function Profile(): JSX.Element {
     dispatch(logoutAction());
     dispatch(setIsModalActive(false));
     dispatch(setIsProfileModalActive(false));
-  };
-
-  const backDrop = {
-    visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: 100 },
   };
 
   return (

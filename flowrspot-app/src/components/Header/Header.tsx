@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../config/routes';
-import { AuthorizationStatus } from '../../const';
+import { AuthorizationStatus, backDrop } from '../../const';
 import { getLoginStatus } from '../../store/authSlice/selectors';
 import {
   setIsLoginModalActive,
@@ -51,25 +51,6 @@ function Header(): JSX.Element {
 
   const handleMenuOpen = () => {
     setMenuOpen(!isMenuOpen);
-  };
-
-  const backDrop = {
-    visible: {
-      opacity: 1, y: 0 ,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40
-      }
-    },
-    hidden: {
-      opacity: 0, y: 100,
-      transition: {
-        type: "spring",
-        stiffness: 400,
-        damping: 40
-      }
-    },
   };
 
   const authorizationStatus = useSelector(getLoginStatus);

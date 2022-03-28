@@ -8,6 +8,7 @@ import {
 import { AuthDataRegisterType } from '../../types/auth-data';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { backDrop } from '../../const';
 
 function Register(): JSX.Element {
   const dispatch = useDispatch();
@@ -26,11 +27,6 @@ function Register(): JSX.Element {
 
   const onSubmit: SubmitHandler<AuthDataRegisterType> = (authData) => {
     dispatch(registerAction(authData));
-  };
-
-  const backDrop = {
-    visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: 100 },
   };
 
   return (

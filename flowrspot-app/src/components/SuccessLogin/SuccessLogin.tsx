@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { NotificationMessage } from '../../const';
+import { backDrop, NotificationMessage } from '../../const';
 import {
   setIsLoginSuccessModalActive,
   setIsModalActive,
@@ -18,11 +18,6 @@ function SuccessLogin(): JSX.Element {
   const handleProfile = () => {
     dispatch(setIsProfileModalActive(true));
     dispatch(setIsLoginSuccessModalActive(false));
-  };
-
-  const backDrop = {
-    visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: 100 },
   };
 
   return (

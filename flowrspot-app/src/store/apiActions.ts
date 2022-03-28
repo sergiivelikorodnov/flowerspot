@@ -8,6 +8,7 @@ import {
   AuthorizationStatus,
   FetchStatus,
   NotificationMessage,
+  toastPosition,
 } from '../const';
 import { toast } from 'react-toastify';
 import { getStatus } from './fetchStatusSlice/fetchStatusSlice';
@@ -31,9 +32,7 @@ export const fetchPostsAction =
         dispatch(getStatus(FetchStatus.Success));
         dispatch(getPosts(adaptPostsBackToFront(data)));
       })
-      .catch(() => toast.error(NotificationMessage.Error, {
-        position: toast.POSITION.TOP_CENTER
-      }));
+      .catch(() => toast.error(NotificationMessage.Error, toastPosition));
   };
 
 export const fetchSearchPostsAction =
@@ -45,9 +44,7 @@ export const fetchSearchPostsAction =
         dispatch(getStatus(FetchStatus.Success));
         dispatch(getPosts(adaptPostsBackToFront(data)));
       })
-      .catch(() => toast.error(NotificationMessage.Error, {
-        position: toast.POSITION.TOP_CENTER
-      }));
+      .catch(() => toast.error(NotificationMessage.Error, toastPosition));
   };
 
 export const loginAction =
@@ -57,9 +54,7 @@ export const loginAction =
       .post(APIRoutes.Login, { email, password })
       .then((response) => {
         if (response.status === HttpCode.BadRequest) {
-          return toast.info(response.data.error, {
-            position: toast.POSITION.TOP_CENTER
-          });
+          return toast.info(response.data.error, toastPosition);
         }
 
         const token = adaptAuthToken(response.data);
@@ -73,9 +68,7 @@ export const loginAction =
         dispatch(setIsLoginModalActive(false));
 
       })
-      .catch(() => toast.error(NotificationMessage.AuthError, {
-        position: toast.POSITION.TOP_CENTER
-      }));
+      .catch(() => toast.error(NotificationMessage.AuthError, toastPosition));
   };
 
   export const registerAction =
@@ -85,18 +78,14 @@ export const loginAction =
       .post(APIRoutes.Register, adaptUserRegister({ email, password, firstName, lastName, dateOfBirth }))
       .then((response) => {
         if (response.status === HttpCode.BadRequest) {
-          return toast.info(response.data.error, {
-            position: toast.POSITION.TOP_CENTER
-          });
+          return toast.info(response.data.error, toastPosition);
         }
         const token = adaptAuthToken(response.data);
         dispatch(setIsRegisteredSuccessModalActive(true));
         dispatch(setIsRegisterModalActive(false));
         dispatch(setAuthKey(token))
       })
-      .catch(() => toast.error(NotificationMessage.AuthError, {
-        position: toast.POSITION.TOP_CENTER
-      }));
+      .catch(() => toast.error(NotificationMessage.AuthError, toastPosition));
   };
 
 
@@ -112,9 +101,7 @@ export const loginAction =
           saveAuthStatus(AuthorizationStatus.Auth);
       })
       .catch(() => {
-        toast.error(NotificationMessage.ConnecError, {
-          position: toast.POSITION.TOP_CENTER
-        });
+        toast.error(NotificationMessage.ConnecError, toastPosition);
         dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
         saveAuthStatus(AuthorizationStatus.NoAuth);
       });
@@ -137,8 +124,6 @@ export const logoutAction =
           dispatch(setUserData(adaptUserInfo(data.user)));
       })
       .catch(() => {
-        toast.error(NotificationMessage.ConnecError, {
-          position: toast.POSITION.TOP_CENTER
-        });
+        toast.error(NotificationMessage.ConnecError, toastPosition);
       });
   };

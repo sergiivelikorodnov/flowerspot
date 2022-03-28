@@ -8,6 +8,7 @@ import {
 import { AuthDataType } from '../../types/auth-data';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { backDrop } from '../../const';
 
 function Login(): JSX.Element {
   const dispatch = useDispatch();
@@ -26,11 +27,6 @@ function Login(): JSX.Element {
   const handleRegister = () => {
     dispatch(setIsLoginModalActive(false));
     dispatch(setIsRegisterModalActive(true));
-  };
-
-  const backDrop = {
-    visible: { opacity: 1, y: 0 },
-    hidden: { opacity: 0, y: 100 },
   };
 
   return (

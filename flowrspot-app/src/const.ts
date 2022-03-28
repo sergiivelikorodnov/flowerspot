@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
@@ -22,3 +24,25 @@ export enum FetchStatus {
   Success = 'SUCCESS'
 }
 
+export const backDrop = {
+  visible: {
+    opacity: 1, y: 0 ,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 40
+    }
+  },
+  hidden: {
+    opacity: 0, y: 100,
+    transition: {
+      type: "spring",
+      stiffness: 400,
+      damping: 40
+    }
+  },
+};
+
+export const toastPosition ={
+  position: toast.POSITION.TOP_CENTER
+}
