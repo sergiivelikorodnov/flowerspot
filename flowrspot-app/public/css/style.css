@@ -11,6 +11,7 @@
   --color-secondary: #ecbcb3;
   --color-secondary-grey: #d4d8d9;
   --color-secondary-white: #fff;
+  --color-secondary-white-opacity:#fff0;
 
   --color-background: #fff;
   --color-alert: #ff5434;
@@ -934,10 +935,10 @@ margin: 0;
   .modal{
     position: absolute;
     height: 100%;
-    background-color: var(--color-secondary-white);
+    background-color: var(--color-secondary-white-opacity);
     top:12px;
     left:0;
-    z-index: 1;
+    z-index: 2;
     }
 
   .modal-content{
