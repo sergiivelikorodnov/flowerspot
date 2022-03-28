@@ -2,10 +2,10 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchSearchPostsAction } from '../../store/apiActions';
 import { KeyboardEvent } from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../config/routes';
 
-function Welcome(): JSX.Element {
+function Search(): JSX.Element {
   const dispatch = useDispatch();
   const textInput = useRef<HTMLInputElement>(null);
 
@@ -18,44 +18,40 @@ function Welcome(): JSX.Element {
   let query = useQuery();
   let searchQuery = query.get("query");
 
-  if (textInput && textInput.current) {
-   if(searchQuery ===''){
-    textInput.current.value='';
-   }
-}
 
+  if (textInput.current) {
+    if (searchQuery === '' || searchQuery === null) {
+      textInput.current.value = '';
+      }
+    }
 
   function handleClick(): void {
     if (textInput && textInput.current) {
       dispatch(fetchSearchPostsAction(textInput.current.value));
-      navigate(AppRoute.Root+`?query=${textInput.current.value}`)
+      navigate(AppRoute.LatestSightings + `?query=${textInput.current.value}`);
     }
   }
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    if( e.key === 'Enter' ){
-    handleClick();
+    if (e.key === 'Enter') {
+      handleClick();
     }
- };
+  };
 
- useEffect(() => {
-  if (searchQuery) textInput.current!.value=`${searchQuery}`;
-});
+  useEffect(() => {
+    if (searchQuery) textInput.current!.value=`${searchQuery}`;
+  });
 
   return (
     <section>
       <h1 className="visually-hidden">Discover flowers around you</h1>
-      <div className="page-header__content-text">
-        <p className="page-header__title">Discover flowers around you</p>
-        <p className="page-header__subtitle">
-          Explore between more than 8.427 sightings
-        </p>
+      <div className="page-header__content-search">
         <div className="form__fieldset-container ">
           <input
-            className="form__input"
-            id="form-search"
+            className="form__input form__input--white"
+            id="formSearch"
             type="search"
-            name="form-search"
+            name="formSearch"
             placeholder="Looking for something specific?"
             required
             ref={textInput}
@@ -72,5 +68,4 @@ function Welcome(): JSX.Element {
   );
 }
 
-export default Welcome;
-
+export default Search;

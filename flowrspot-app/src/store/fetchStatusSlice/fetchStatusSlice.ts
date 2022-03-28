@@ -10,14 +10,14 @@ const fetchStatusSlice = createSlice({
   name: 'fetchStatus',
   initialState,
   reducers:{
-    getStatus(state, action: PayloadAction<FetchStatus>) {
+    setStatus(state, action: PayloadAction<FetchStatus>) {
       state.fetchStatus = action.payload;
     },
   },
 });
 
 export const {
-  getStatus,
+  setStatus,
 } = fetchStatusSlice.actions;
 
 export default fetchStatusSlice.reducer;

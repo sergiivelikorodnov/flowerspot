@@ -49,6 +49,16 @@ function Header(): JSX.Element {
     handleResize();
   }
 
+  const handleFlowers = () =>{
+    navigate (AppRoute.Root);
+    handleResize();
+  }
+
+  const handleLatest = () =>{
+    navigate (AppRoute.LatestSightings);
+    handleResize();
+  }
+
   const handleMenuOpen = () => {
     setMenuOpen(!isMenuOpen);
   };
@@ -96,14 +106,14 @@ function Header(): JSX.Element {
               animate={isMenuOpen ? "visible" : "hidden"}
               exit={{ opacity: 0 }}
               >
-              <li className="site-list__item site-list__item--grey">
+              <li className="site-list__item site-list__item--grey" onClick={handleFlowers}>
                 <Link to="#">Flowers</Link>
               </li>
-              <li className="site-list__item site-list__item--grey">
+              <li className="site-list__item site-list__item--grey" onClick={handleLatest}>
                 <Link to="#">Latest Sightings</Link>
               </li>
-              <li className="site-list__item site-list__item--grey">
-                <Link to={AppRoute.Favorites} onClick={handleFavorite}>Favorites</Link>
+              <li className="site-list__item site-list__item--grey" onClick={handleFavorite}>
+                <Link to={AppRoute.Favorites} >Favorites</Link>
               </li>
               {authorizationStatus !== AuthorizationStatus.Auth ? (
                 <>

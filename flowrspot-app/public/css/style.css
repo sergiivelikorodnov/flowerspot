@@ -244,6 +244,11 @@ margin: 0;
   align-items: center;
 }
 
+@media (max-width: 768px) {
+  .page-header__content-search {
+    background: linear-gradient(180deg, rgba(245,245,245,1) 0%, rgba(255,255,255,1) 20%);
+  }
+}
 .page-header__top {
   position: relative;
   transition: all 0.75s ease-in-out;

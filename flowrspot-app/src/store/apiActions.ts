@@ -3,7 +3,12 @@ import { FlowersType } from './../types/flower';
 import { APIRoutes } from '../config/apiRoutes';
 import { ThunkActionResult } from '../types/action';
 import { getPosts } from './flowersSlice/flowersSlice';
-import { adaptAuthToken, adaptPostsBackToFront, adaptUserInfo, adaptUserRegister } from '../services/adapters';
+import {
+  adaptAuthToken,
+  adaptPostsBackToFront,
+  adaptUserInfo,
+  adaptUserRegister,
+} from '../services/adapters';
 import {
   AuthorizationStatus,
   FetchStatus,
@@ -11,12 +16,22 @@ import {
   toastPosition,
 } from '../const';
 import { toast } from 'react-toastify';
-import { getStatus } from './fetchStatusSlice/fetchStatusSlice';
+import { setStatus } from './fetchStatusSlice/fetchStatusSlice';
 import { AuthDataType } from '../types/auth-data';
-import { loginUser as setUserData, logoutUser, requireAuthorization, setAuthKey } from './authSlice/authSlice';
+import {
+  loginUser as setUserData,
+  logoutUser,
+  requireAuthorization,
+  setAuthKey,
+} from './authSlice/authSlice';
 import { dropAuthStatus, saveAuthStatus } from '../services/authStatus';
 import { dropToken, saveToken } from '../services/token';
-import { setIsLoginModalActive, setIsLoginSuccessModalActive, setIsRegisteredSuccessModalActive, setIsRegisterModalActive } from './commonSlice/commonSlice';
+import {
+  setIsLoginModalActive,
+  setIsLoginSuccessModalActive,
+  setIsRegisteredSuccessModalActive,
+  setIsRegisterModalActive,
+} from './commonSlice/commonSlice';
 
 enum HttpCode {
   Unauthorized = 401,
@@ -29,8 +44,20 @@ export const fetchPostsAction =
     await api
       .get<FlowersType>(APIRoutes.Posts)
       .then(({ data }) => {
-        dispatch(getStatus(FetchStatus.Success));
         dispatch(getPosts(adaptPostsBackToFront(data)));
+        dispatch(setStatus(FetchStatus.Success));
+      })
+      .catch(() => toast.error(NotificationMessage.Error, toastPosition));
+  };
+
+export const fetchRandomPostsAction =
+  (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api
+      .get<FlowersType>(APIRoutes.Random)
+      .then(({ data }) => {
+        dispatch(getPosts(adaptPostsBackToFront(data)));
+        dispatch(setStatus(FetchStatus.Success));
       })
       .catch(() => toast.error(NotificationMessage.Error, toastPosition));
   };
@@ -41,8 +68,8 @@ export const fetchSearchPostsAction =
     await api
       .get<FlowersType>(APIRoutes.SearchPosts + `${query}`)
       .then(({ data }) => {
-        dispatch(getStatus(FetchStatus.Success));
         dispatch(getPosts(adaptPostsBackToFront(data)));
+        dispatch(setStatus(FetchStatus.Success));
       })
       .catch(() => toast.error(NotificationMessage.Error, toastPosition));
   };
@@ -61,21 +88,29 @@ export const loginAction =
 
         saveAuthStatus(AuthorizationStatus.Auth);
         saveToken(token.authToken);
-        dispatch(setAuthKey(token))
+        dispatch(setAuthKey(token));
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
         dispatch(meInfoAction());
         dispatch(setIsLoginSuccessModalActive(true));
         dispatch(setIsLoginModalActive(false));
-
       })
       .catch(() => toast.error(NotificationMessage.AuthError, toastPosition));
   };
 
-  export const registerAction =
-  ({ email, password, firstName, lastName, dateOfBirth}: AuthDataRegisterType): ThunkActionResult =>
+export const registerAction =
+  ({
+    email,
+    password,
+    firstName,
+    lastName,
+    dateOfBirth,
+  }: AuthDataRegisterType): ThunkActionResult =>
   async (dispatch, _getState, api) => {
     await api
-      .post(APIRoutes.Register, adaptUserRegister({ email, password, firstName, lastName, dateOfBirth }))
+      .post(
+        APIRoutes.Register,
+        adaptUserRegister({ email, password, firstName, lastName, dateOfBirth })
+      )
       .then((response) => {
         if (response.status === HttpCode.BadRequest) {
           return toast.info(response.data.error, toastPosition);
@@ -83,13 +118,12 @@ export const loginAction =
         const token = adaptAuthToken(response.data);
         dispatch(setIsRegisteredSuccessModalActive(true));
         dispatch(setIsRegisterModalActive(false));
-        dispatch(setAuthKey(token))
+        dispatch(setAuthKey(token));
       })
       .catch(() => toast.error(NotificationMessage.AuthError, toastPosition));
   };
 
-
-  export const checkAuthAction =
+export const checkAuthAction =
   (): ThunkActionResult => async (dispatch, _getState, api) => {
     await api
       .get(APIRoutes.Me)
@@ -97,7 +131,7 @@ export const loginAction =
         data.status &&
           data.status !== 401 &&
           dispatch(requireAuthorization(AuthorizationStatus.Auth)) &&
-          dispatch(setUserData(adaptUserInfo(data.data.user)))&&
+          dispatch(setUserData(adaptUserInfo(data.data.user))) &&
           saveAuthStatus(AuthorizationStatus.Auth);
       })
       .catch(() => {
@@ -107,7 +141,6 @@ export const loginAction =
       });
   };
 
-
 export const logoutAction =
   (): ThunkActionResult => async (dispatch, _getState, api) => {
     dropToken();
@@ -115,13 +148,12 @@ export const logoutAction =
     dispatch(logoutUser());
   };
 
-
-  export const meInfoAction =
+export const meInfoAction =
   (): ThunkActionResult => async (dispatch, _getState, api) => {
     await api
       .get(APIRoutes.Me)
-      .then(({data}) => {
-          dispatch(setUserData(adaptUserInfo(data.user)));
+      .then(({ data }) => {
+        dispatch(setUserData(adaptUserInfo(data.user)));
       })
       .catch(() => {
         toast.error(NotificationMessage.ConnecError, toastPosition);

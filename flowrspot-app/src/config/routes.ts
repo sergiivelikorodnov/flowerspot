@@ -4,4 +4,5 @@ export enum AppRoute {
   CardId = '/card/:id',
   Favorites = '/favorites',
   CardList = '/cards',
+  LatestSightings = '/latest-sightings',
 }

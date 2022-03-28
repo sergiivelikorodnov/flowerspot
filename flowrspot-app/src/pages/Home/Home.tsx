@@ -5,40 +5,41 @@ import GridCards from '../../components/GridCards/GridCards';
 import Loading from '../../components/Loading/Loading';
 import Welcome from '../../components/Welcome/Welcome';
 import { FetchStatus } from '../../const';
-import { fetchSearchPostsAction } from '../../store/apiActions';
+import { fetchPostsAction, fetchSearchPostsAction } from '../../store/apiActions';
+import { setStatus } from '../../store/fetchStatusSlice/fetchStatusSlice';
 import { getFetchStatus } from '../../store/fetchStatusSlice/selectors';
 import { getAllPosts } from '../../store/flowersSlice/selectors';
-
-function useQuery() {
-  const { search } = useLocation();
-  return useMemo(() => new URLSearchParams(search), [search]);
-}
 
 function Home(): JSX.Element {
   const posts = useSelector(getAllPosts);
   const status = useSelector(getFetchStatus);
   const dispatch = useDispatch();
 
-  let query = useQuery();
-  let search = query.get("query");
-
-  if(!search){
-    search='';
+  function useQuery() {
+    const { search } = useLocation();
+    return useMemo(() => new URLSearchParams(search), [search]);
   }
 
+  let query = useQuery();
+  let searchQuery = query.get('query');
+
   useEffect(() => {
-    dispatch(fetchSearchPostsAction(search));
- }, [dispatch, search]);
+    dispatch(setStatus(FetchStatus.InProgress));
+    if (searchQuery === null) {
+      dispatch(fetchPostsAction());
+    } else {
+    dispatch(fetchSearchPostsAction(searchQuery));
+    }
+  }, [dispatch, searchQuery]);
 
+  if (status === FetchStatus.InProgress) {
+    return <Loading />;
+  }
 
-if (status === FetchStatus.InProgress) {
-  return <Loading />;
-}
-
-return (
+  return (
     <>
-      <Welcome/>
-      <GridCards posts={posts}/>
+      <Welcome />
+      <GridCards posts={posts} />
     </>
   );
 }
