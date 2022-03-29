@@ -71,3 +71,45 @@ export const fakeStateAuth: fakeState = {
   },
 };
 
+
+export const fakeStateAuthWithProfileModal: fakeState = {
+  AUTH: {
+    authorizationStatus: AuthorizationStatus.Auth,
+    userAuthInfo: userFrontend,
+  },
+  POSTS: {
+    posts: fakeFrontPosts.flowers,
+  },
+  FETCH_STATUS: {
+    fetchStatus: FetchStatus.Success,
+  },
+  MODAL_STATUS: {
+    isModalActive: true,
+    isLoginModalActive: false,
+    isRegisterModalActive: false,
+    isProfileModalActive: true,
+    isRegisterSuccessModalActive: false,
+    isLoginSuccessModalActive: false,
+  },
+};
+
+export const fakeStateAuthWithRegisterModal: fakeState = {
+  AUTH: {
+    authorizationStatus: AuthorizationStatus.NoAuth,
+    userAuthInfo: userFrontend,
+  },
+  POSTS: {
+    posts: fakeFrontPosts.flowers,
+  },
+  FETCH_STATUS: {
+    fetchStatus: FetchStatus.Success,
+  },
+  MODAL_STATUS: {
+    isModalActive: true,
+    isLoginModalActive: false,
+    isRegisterModalActive: true,
+    isProfileModalActive: false,
+    isRegisterSuccessModalActive: false,
+    isLoginSuccessModalActive: false,
+  },
+};

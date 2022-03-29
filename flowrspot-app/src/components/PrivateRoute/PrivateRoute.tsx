@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
-import { AppRoute } from '../../config/routes';
 import { AuthorizationStatus } from '../../const';
+import FavoritesNotLogged from '../../pages/Favorites/FavoritesNotLogged';
 import { getLoginStatus } from '../../store/authSlice/selectors';
 
 type PrivateRouteProps = {
@@ -12,7 +11,7 @@ function PrivateRoute({ children }: PrivateRouteProps): JSX.Element{
   const authorizationStatus = useSelector(getLoginStatus);
 
   if (authorizationStatus!==AuthorizationStatus.Auth) {
-    return <Navigate to={AppRoute.Login} />;
+    return <FavoritesNotLogged />;
   } else {
     return children;
   }

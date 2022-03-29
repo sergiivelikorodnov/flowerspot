@@ -20,8 +20,9 @@ function FlowerCard({ card }: SingleCard): JSX.Element {
         </Link>
         {authorizationStatus === AuthorizationStatus.Auth ? (
           <button
-            className="catalogue-card__bookmark-button catalogue-card__bookmark-button"
+            className="catalogue-card__bookmark-button"
             type="button"
+            data-testid="favouriteButton"
           >
             <svg
               className="catalogue-card__bookmark-icon"
