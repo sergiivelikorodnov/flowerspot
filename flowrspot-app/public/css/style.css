@@ -34,6 +34,7 @@
   align-content: start;
   min-height: 100vh;
   background-color: var(--color-secondary-white);
+  overflow-y: scroll;
 }
 
 a {
@@ -251,17 +252,13 @@ margin: 0;
   }
 }
 .page-header__top {
-  position: absolute;
+  position: relative;
   transition: all 0.75s ease-in-out;
   z-index: 2;
   height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
 }
 
 .page-header__logo {
