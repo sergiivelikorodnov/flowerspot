@@ -1,9 +1,9 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import GridCards from '../../components/GridCards/GridCards';
 import Welcome from '../../components/Welcome/Welcome';
 import { FetchStatus } from '../../const';
+import useSearchQuery from '../../hooks/useSearchQuery';
 import { fetchPostsAction, fetchSearchPostsAction } from '../../store/apiActions';
 import { setStatus } from '../../store/fetchStatusSlice/fetchStatusSlice';
 import { getAllPosts } from '../../store/flowersSlice/selectors';
@@ -12,13 +12,7 @@ function Home(): JSX.Element {
   const posts = useSelector(getAllPosts);
   const dispatch = useDispatch();
 
-  function useQuery() {
-    const { search } = useLocation();
-    return useMemo(() => new URLSearchParams(search), [search]);
-  }
-
-  let query = useQuery();
-  let searchQuery = query.get('query');
+   let searchQuery = useSearchQuery();
 
   useEffect(() => {
     dispatch(setStatus(FetchStatus.InProgress));

@@ -1,46 +1,40 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchSearchPostsAction } from '../../store/apiActions';
 import { KeyboardEvent } from 'react';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../config/routes';
+import useSearchQuery from '../../hooks/useSearchQuery';
 
 function Welcome(): JSX.Element {
   const dispatch = useDispatch();
   const textInput = useRef<HTMLInputElement>(null);
-
-  function useQuery() {
-    const { search } = useLocation();
-    return useMemo(() => new URLSearchParams(search), [search]);
-  }
-
   let navigate = useNavigate();
-  let query = useQuery();
-  let searchQuery = query.get("query");
 
-  if (textInput && textInput.current) {
-   if(searchQuery ===''){
-    textInput.current.value='';
-   }
-}
+  let searchQuery = useSearchQuery();
 
+  if (textInput.current) {
+    if (searchQuery === '' || searchQuery === null) {
+      textInput.current.value = '';
+    }
+  }
 
   function handleClick(): void {
     if (textInput && textInput.current) {
       dispatch(fetchSearchPostsAction(textInput.current.value));
-      navigate(AppRoute.Root+`?query=${textInput.current.value}`)
+      navigate(AppRoute.Root + `?query=${textInput.current.value}`);
     }
   }
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    if( e.key === 'Enter' ){
-    handleClick();
+    if (e.key === 'Enter') {
+      handleClick();
     }
- };
+  };
 
- useEffect(() => {
-  if (searchQuery) textInput.current!.value=`${searchQuery}`;
-});
+  useEffect(() => {
+    if (searchQuery) textInput.current!.value = `${searchQuery}`;
+  });
 
   return (
     <section>
@@ -73,4 +67,3 @@ function Welcome(): JSX.Element {
 }
 
 export default Welcome;
-

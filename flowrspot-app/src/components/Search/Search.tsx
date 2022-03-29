@@ -1,29 +1,23 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { fetchSearchPostsAction } from '../../store/apiActions';
 import { KeyboardEvent } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../config/routes';
+import useSearchQuery from '../../hooks/useSearchQuery';
 
 function Search(): JSX.Element {
   const dispatch = useDispatch();
   const textInput = useRef<HTMLInputElement>(null);
-
-  function useQuery() {
-    const { search } = useLocation();
-    return useMemo(() => new URLSearchParams(search), [search]);
-  }
-
   let navigate = useNavigate();
-  let query = useQuery();
-  let searchQuery = query.get("query");
 
+  let searchQuery = useSearchQuery();
 
   if (textInput.current) {
     if (searchQuery === '' || searchQuery === null) {
       textInput.current.value = '';
-      }
     }
+  }
 
   function handleClick(): void {
     if (textInput && textInput.current) {
@@ -39,7 +33,7 @@ function Search(): JSX.Element {
   };
 
   useEffect(() => {
-    if (searchQuery) textInput.current!.value=`${searchQuery}`;
+    if (searchQuery) textInput.current!.value = `${searchQuery}`;
   });
 
   return (

@@ -1,10 +1,10 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import GridCards from '../../components/GridCards/GridCards';
 import Search from '../../components/Search/Search';
 
 import { FetchStatus } from '../../const';
+import useSearchQuery from '../../hooks/useSearchQuery';
 import {
   fetchRandomPostsAction,
   fetchSearchPostsAction,
@@ -17,13 +17,7 @@ function LatestSightings(): JSX.Element {
   const posts = useSelector(getAllPosts);
   const dispatch = useDispatch();
 
-  function useQuery() {
-    const { search } = useLocation();
-    return useMemo(() => new URLSearchParams(search), [search]);
-  }
-
-  let query = useQuery();
-  let searchQuery = query.get('query');
+  let searchQuery = useSearchQuery();
 
   useEffect(() => {
     dispatch(setStatus(FetchStatus.InProgress));
