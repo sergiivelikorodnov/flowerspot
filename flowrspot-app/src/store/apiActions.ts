@@ -1,10 +1,12 @@
+import { dropEmail, getEmail } from './../services/email';
 import { AuthDataRegisterType } from './../types/auth-data';
-import { FlowersType } from './../types/flower';
+import { FavFlowersType, FlowersType } from './../types/flower';
 import { APIRoutes } from '../config/apiRoutes';
 import { ThunkActionResult } from '../types/action';
-import { getPosts } from './flowersSlice/flowersSlice';
+import { getFavPosts, getPosts } from './flowersSlice/flowersSlice';
 import {
   adaptAuthToken,
+  adaptFavPostsBackToFront,
   adaptPostsBackToFront,
   adaptUserInfo,
   adaptUserRegister,
@@ -19,6 +21,7 @@ import { toast } from 'react-toastify';
 import { setStatus } from './fetchStatusSlice/fetchStatusSlice';
 import { AuthDataType } from '../types/auth-data';
 import {
+  getUserEmail,
   loginUser as setUserData,
   logoutUser,
   requireAuthorization,
@@ -31,6 +34,7 @@ import {
   setIsRegisteredSuccessModalActive,
   setIsRegisterModalActive,
 } from './commonSlice/commonSlice';
+import { saveEmail } from '../services/email';
 
 enum HttpCode {
   Unauthorized = 401,
@@ -84,8 +88,9 @@ export const loginAction =
         }
 
         const token = adaptAuthToken(response.data);
-
         saveAuthStatus(AuthorizationStatus.Auth);
+        saveEmail(email);
+        dispatch(getUserEmail(getEmail()));
         saveToken(token.authToken);
         dispatch(requireAuthorization(AuthorizationStatus.Auth));
         dispatch(meInfoAction());
@@ -129,6 +134,7 @@ export const checkAuthAction =
           dispatch(requireAuthorization(AuthorizationStatus.Auth)) &&
           dispatch(setUserData(adaptUserInfo(data.data.user))) &&
           saveAuthStatus(AuthorizationStatus.Auth);
+        dispatch(getUserEmail(getEmail()));
       })
       .catch(() => {
         toast.error(NotificationMessage.ConnecError, toastPosition);
@@ -141,6 +147,7 @@ export const logoutAction =
   (): ThunkActionResult => async (dispatch, _getState, api) => {
     dropToken();
     dropAuthStatus();
+    dropEmail();
     dispatch(logoutUser());
   };
 
@@ -154,4 +161,17 @@ export const meInfoAction =
       .catch(() => {
         toast.error(NotificationMessage.ConnecError, toastPosition);
       });
+  };
+
+export const fetchFavPostsAction =
+  (): ThunkActionResult =>
+  async (dispatch, _getState, api): Promise<void> => {
+    await api
+      .get<FavFlowersType>(APIRoutes.Favorites)
+      .then(({ data }) => {
+        const posts = adaptFavPostsBackToFront(data);
+        dispatch(getFavPosts(posts.favFlowers));
+        dispatch(setStatus(FetchStatus.Success));
+      })
+      .catch(() => toast.error(NotificationMessage.Error, toastPosition));
   };

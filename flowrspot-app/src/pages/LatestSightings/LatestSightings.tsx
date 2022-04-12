@@ -37,4 +37,3 @@ function LatestSightings(): JSX.Element {
 }
 
 export default LatestSightings;
-

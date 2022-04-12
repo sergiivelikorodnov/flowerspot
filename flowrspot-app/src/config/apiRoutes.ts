@@ -6,4 +6,5 @@ export enum APIRoutes {
   Me = '/users/me',
   Refresh = '/users/me/refresh',
   Random = '/flowers/random',
+  Favorites = '/flowers/favorites'
 }

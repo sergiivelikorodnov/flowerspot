@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../config/routes';
 import { AuthorizationStatus, backDrop } from '../../const';
-import { getLoginStatus } from '../../store/authSlice/selectors';
+import { getLoginStatus, getUserData } from '../../store/authSlice/selectors';
 import {
   setIsLoginModalActive,
   setIsModalActive,
@@ -17,18 +17,19 @@ function Header(): JSX.Element {
   const dispatch = useDispatch();
   const [isMenuOpen, setMenuOpen] = useState(true);
   let navigate = useNavigate();
+  const userInfo = useSelector(getUserData);
 
   const handleResize = () => {
     if (window.innerWidth > 768) {
-      setMenuOpen(true)
+      setMenuOpen(true);
     } else {
-      setMenuOpen(false)
+      setMenuOpen(false);
     }
-  }
+  };
 
   useEffect(() => {
-    window.addEventListener("resize", handleResize)
-  })
+    window.addEventListener('resize', handleResize);
+  });
 
   const handleLoginOpenModal = () => {
     dispatch(setIsModalActive(true));
@@ -45,20 +46,20 @@ function Header(): JSX.Element {
     dispatch(setIsProfileModalActive(true));
   };
 
-  const handleFavorite = () =>{
-    navigate (AppRoute.Favorites);
+  const handleFavorite = () => {
+    navigate(AppRoute.Favorites);
     handleResize();
-  }
+  };
 
-  const handleFlowers = () =>{
-    navigate (AppRoute.Root);
+  const handleFlowers = () => {
+    navigate(AppRoute.Root);
     handleResize();
-  }
+  };
 
-  const handleLatest = () =>{
-    navigate (AppRoute.LatestSightings);
+  const handleLatest = () => {
+    navigate(AppRoute.LatestSightings);
     handleResize();
-  }
+  };
 
   const handleMenuOpen = () => {
     setMenuOpen(!isMenuOpen);
@@ -67,54 +68,63 @@ function Header(): JSX.Element {
   const authorizationStatus = useSelector(getLoginStatus);
 
   return (
-      <header className="page-header">
-        <div className="page-header__top page-header__wrap">
-          <Link to={AppRoute.Root} className="page-header__logo">
-            <img
-              className="page-header__logo-picture"
-              src="img/logo.svg"
-              alt="FlowrSpot"
-              width="169"
-              height="38"
-            />
-          </Link>
-          <nav
-            className={
-              isMenuOpen
-                ? 'main-nav main-nav--opened'
-                : 'main-nav main-nav--closed'
-            }
+    <header className="page-header">
+      <div className="page-header__top page-header__wrap">
+        <Link to={AppRoute.Root} className="page-header__logo">
+          <img
+            className="page-header__logo-picture"
+            src="img/logo.svg"
+            alt="FlowrSpot"
+            width="169"
+            height="38"
+          />
+        </Link>
+        <nav
+          className={
+            isMenuOpen
+              ? 'main-nav main-nav--opened'
+              : 'main-nav main-nav--closed'
+          }
+        >
+          <button
+            className="main-nav__toggle"
+            type="button"
+            aria-label="Открыть/Закрыть меню"
+            onClick={handleMenuOpen}
           >
-            <button
-              className="main-nav__toggle"
-              type="button"
-              aria-label="Открыть/Закрыть меню"
-              onClick={handleMenuOpen}
-            >
-              <span
-                className={
-                  isMenuOpen
-                    ? 'main-nav__toggle-button opened'
-                    : 'main-nav__toggle-button'
-                }
-              ></span>
-            </button>
-            <AnimatePresence exitBeforeEnter>
+            <span
+              className={
+                isMenuOpen
+                  ? 'main-nav__toggle-button opened'
+                  : 'main-nav__toggle-button'
+              }
+            ></span>
+          </button>
+          <AnimatePresence exitBeforeEnter>
             <motion.ul
               className="main-nav__list site-list list-reset"
               initial={false}
               variants={backDrop}
-              animate={isMenuOpen ? "visible" : "hidden"}
+              animate={isMenuOpen ? 'visible' : 'hidden'}
               exit={{ opacity: 0 }}
+            >
+              <li
+                className="site-list__item site-list__item--grey"
+                onClick={handleFlowers}
               >
-              <li className="site-list__item site-list__item--grey" onClick={handleFlowers}>
                 <Link to="#">Flowers</Link>
               </li>
-              <li className="site-list__item site-list__item--grey" onClick={handleLatest}>
+              <li
+                className="site-list__item site-list__item--grey"
+                onClick={handleLatest}
+              >
                 <Link to="#">Latest Sightings</Link>
               </li>
-              <li className="site-list__item site-list__item--grey" onClick={handleFavorite}>
-                <Link to={AppRoute.Favorites} >Favorites</Link>
+              <li
+                className="site-list__item site-list__item--grey"
+                onClick={handleFavorite}
+              >
+                <Link to={AppRoute.Favorites}>Favorites</Link>
               </li>
               {authorizationStatus !== AuthorizationStatus.Auth ? (
                 <>
@@ -137,7 +147,9 @@ function Header(): JSX.Element {
                   onClick={handleOpenProfileModal}
                 >
                   <Link to="#" className="site-list__item--profile">
-                    <p>John Doe</p>
+                    <p>
+                      {userInfo?.firstName} {userInfo?.lastName}
+                    </p>
                     <img
                       src="img/profile-holder.png"
                       width="40"
@@ -148,10 +160,10 @@ function Header(): JSX.Element {
                 </li>
               )}
             </motion.ul>
-            </AnimatePresence>
-          </nav>
-        </div>
-      </header>
+          </AnimatePresence>
+        </nav>
+      </div>
+    </header>
   );
 }
 

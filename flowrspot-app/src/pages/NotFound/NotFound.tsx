@@ -1,9 +1,8 @@
 function NotFound(): JSX.Element {
   return (
     <div className="wrapper">
-        <h2>404 page!</h2>
+      <h2>404 page!</h2>
     </div>
-
   );
 }
 

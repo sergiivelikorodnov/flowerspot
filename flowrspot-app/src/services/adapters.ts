@@ -3,7 +3,13 @@ import {
   AuthTokenType,
   UserMeDataType,
 } from '../types/auth-data';
-import { FlowersType, FlowerType } from './../types/flower';
+import {
+  FavFlowersType,
+  FavFlowerType,
+  FlowersType,
+  FlowerType,
+} from './../types/flower';
+
 export const adaptPostsBackToFront = (backData: FlowersType): FlowersType => {
   const adaptedData = backData.flowers.map(
     (item): FlowerType =>
@@ -79,4 +85,47 @@ export const adaptUserInfo = (backData: UserMeDataType): UserMeDataType => {
   );
 
   return adaptedRegisterData;
+};
+
+export const adaptFavPostsBackToFront = (
+  backData: FavFlowersType
+): FavFlowersType => {
+  const adoptedFlowers = Object.assign(
+    {},
+    backData,
+    {
+      favFlowers: backData.fav_flowers,
+    },
+    delete backData.fav_flowers
+  );
+
+  const adaptedData = adoptedFlowers.favFlowers.map(
+    (item): FavFlowerType =>
+      Object.assign(
+        {},
+        item,
+        item.flower.latinName = item.flower.latin_name,
+        item.flower.profilePicture = item.flower.profile_picture,
+        {userId: item.user_id},
+        {id: item.id},
+        {flower: item.flower},
+        delete item.user_id,
+        delete item.flower.profile_picture,
+        delete item.flower.latin_name,
+      )
+  );
+
+  const adaptedFavDataWithMeta = Object.assign(
+    {},
+    {
+      favFlowers: adaptedData,
+    },
+    {
+      meta: {
+        pagination: backData.meta.pagination,
+      },
+    }
+  );
+
+  return adaptedFavDataWithMeta;
 };

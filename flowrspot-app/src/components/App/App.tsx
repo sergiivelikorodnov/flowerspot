@@ -9,20 +9,21 @@ import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 function App(): JSX.Element {
   return (
-      <Routes>
-        <Route path={AppRoute.Root} element={<PageWrapper />}>
-          <Route index element={<Home />}/>
-          <Route path={AppRoute.LatestSightings} element={<LatestSightings />} />
-          <Route path={AppRoute.Favorites}
-            element={
-              <PrivateRoute>
-                <Favorites />
-              </PrivateRoute>
-            }
-          />
-          <Route path='*' element={<NotFound />}/>
-        </Route>
-      </Routes>
+    <Routes>
+      <Route path={AppRoute.Root} element={<PageWrapper />}>
+        <Route index element={<Home />} />
+        <Route path={AppRoute.LatestSightings} element={<LatestSightings />} />
+        <Route
+          path={AppRoute.Favorites}
+          element={
+            <PrivateRoute>
+              <Favorites />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }
 

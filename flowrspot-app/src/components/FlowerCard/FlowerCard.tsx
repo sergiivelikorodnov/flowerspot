@@ -1,6 +1,15 @@
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AuthorizationStatus } from '../../const';
+import { toast } from 'react-toastify';
+import { APIRoutes } from '../../config/apiRoutes';
+import {
+  AuthorizationStatus,
+  NotificationMessage,
+  toastPosition,
+} from '../../const';
+import { createFreeAPI } from '../../services/api';
+import { fetchPostsAction } from '../../store/apiActions';
 import { getLoginStatus } from '../../store/authSlice/selectors';
 import { FlowerType } from '../../types/flower';
 
@@ -9,8 +18,21 @@ type SingleCard = {
 };
 
 function FlowerCard({ card }: SingleCard): JSX.Element {
-  const { name, latinName, sightings, profilePicture } = card;
+  const { name, latinName, sightings, profilePicture, id, favorite } = card;
+  const dispatch = useDispatch();
+  const [isFavorite, setIsFavorite] = useState(favorite);
   const authorizationStatus = useSelector(getLoginStatus);
+  const api = createFreeAPI();
+
+  const setFavoriteHandler = async (idCard: number): Promise<void> => {
+    await api
+      .post(`${APIRoutes.Posts}/${idCard}/favorites`)
+      .then(() => {
+        setIsFavorite(!favorite);
+        dispatch(fetchPostsAction());
+      })
+      .catch(() => toast.error(NotificationMessage.FavError, toastPosition));
+  };
 
   return (
     <li className="catalogue__item">
@@ -20,9 +42,14 @@ function FlowerCard({ card }: SingleCard): JSX.Element {
         </Link>
         {authorizationStatus === AuthorizationStatus.Auth ? (
           <button
-            className="catalogue-card__bookmark-button"
+            className={
+              isFavorite
+                ? 'catalogue-card__bookmark-button catalogue-card__bookmark-button--active'
+                : 'catalogue-card__bookmark-button'
+            }
             type="button"
             data-testid="favouriteButton"
+            onClick={() => setFavoriteHandler(id)}
           >
             <svg
               className="catalogue-card__bookmark-icon"

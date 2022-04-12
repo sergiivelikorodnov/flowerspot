@@ -9,40 +9,42 @@ export enum AuthorizationStatus {
 export const API_BASE_URL = 'https://flowrspot-api.herokuapp.com/api/v1/';
 export const REQUEST_TIMEOUT = 5000;
 
-
 export enum NotificationMessage {
   Error = 'Sorry. Something went wrong',
   AuthError = 'Something went wrong. Check your email and password',
   CheckAuth = 'Login to see more functinality',
   ConnecError = 'Check your connection please',
+  FavError = 'User has already been taken',
   AuthRegistered = 'Congratulations! You have successfully signed up for FlowrSpot!',
-  AuthLogged = 'You have successfully logged'
+  AuthLogged = 'You have successfully logged',
 }
 
 export enum FetchStatus {
   InProgress = 'IN_PROGRESS',
-  Success = 'SUCCESS'
+  Success = 'SUCCESS',
 }
 
 export const backDrop = {
   visible: {
-    opacity: 1, y: 0 ,
+    opacity: 1,
+    y: 0,
     transition: {
-      type: "spring",
+      type: 'spring',
       stiffness: 400,
-      damping: 40
-    }
+      damping: 40,
+    },
   },
   hidden: {
-    opacity: 0, y: 100,
+    opacity: 0,
+    y: 100,
     transition: {
-      type: "spring",
+      type: 'spring',
       stiffness: 400,
-      damping: 40
-    }
+      damping: 40,
+    },
   },
 };
 
-export const toastPosition ={
-  position: toast.POSITION.TOP_CENTER
-}
+export const toastPosition = {
+  position: toast.POSITION.TOP_CENTER,
+};

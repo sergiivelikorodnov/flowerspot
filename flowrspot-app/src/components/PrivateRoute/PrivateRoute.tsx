@@ -4,13 +4,13 @@ import FavoritesNotLogged from '../../pages/Favorites/FavoritesNotLogged';
 import { getLoginStatus } from '../../store/authSlice/selectors';
 
 type PrivateRouteProps = {
-  children: JSX.Element,
-}
+  children: JSX.Element;
+};
 
-function PrivateRoute({ children }: PrivateRouteProps): JSX.Element{
+function PrivateRoute({ children }: PrivateRouteProps): JSX.Element {
   const authorizationStatus = useSelector(getLoginStatus);
 
-  if (authorizationStatus!==AuthorizationStatus.Auth) {
+  if (authorizationStatus !== AuthorizationStatus.Auth) {
     return <FavoritesNotLogged />;
   } else {
     return children;

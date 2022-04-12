@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../../store/apiActions';
-import { getUserData } from '../../store/authSlice/selectors';
+import { getUserData, getUserEmail } from '../../store/authSlice/selectors';
 import {
   setIsModalActive,
   setIsProfileModalActive,
@@ -11,6 +11,7 @@ import { backDrop } from '../../const';
 function Profile(): JSX.Element {
   const dispatch = useDispatch();
   const userData = useSelector(getUserData);
+  const userEmail = useSelector(getUserEmail);
 
   const handleClose = () => {
     dispatch(setIsModalActive(false));
@@ -61,7 +62,7 @@ function Profile(): JSX.Element {
           </div>
           <div className="profile-data">
             <p className="profile-subtitle">Email Address</p>
-            <p className="profile-title">michael.berry@gmail.com</p>
+            <p className="profile-title">{userEmail}</p>
           </div>
 
           <button
